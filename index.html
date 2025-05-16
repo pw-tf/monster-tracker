@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -297,7 +299,6 @@
             transform: translateY(-32px);
             opacity: 0;
             transition: 0.4s;
- humour
         }
 
         .star {
@@ -362,7 +363,9 @@
             }
         }
     </style>
+
 </head>
+
 <body class="bg-gray-100 font-sans">
     <div class="container mx-auto p-4">
         <div class="flex justify-between items-center mb-4">
@@ -411,30 +414,29 @@
                     <div class="stars">
                         <svg id="star-1" class="star" viewBox="0 0 20 20">
                             <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                            </path>
                         </svg>
                         <svg id="star-2" class="star" viewBox="0 0 20 20">
                             <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                            </path>
                         </svg>
                         <svg id="star-3" class="star" viewBox="0 0 20 20">
                             <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                            </path>
                         </svg>
                         <svg id="star-4" class="star" viewBox="0 0 20 20">
                             <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+                            </path>
                         </svg>
                     </div>
                 </div>
             </label>
         </div>
 
-        <!-- Add Monster Form -->
         <div class="bg-white p-4 rounded-lg shadow mb-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-semibold">Add Monsters</h2>
@@ -458,7 +460,11 @@
                     <input type="number" id="monsterHP" placeholder="Max HP" min="1"
                         class="border p-2 rounded w-24" data-single-hp>
                     <input type="number" id="monsterInitiative" placeholder="Initiative"
-                        class="border p-2 rounded w-24" data-single-initiative>
+                        class="border p-2 rounded w-24" data-single-initiative oninput="document.getElementById('autoInitiative').checked = false;">
+                    <div class="flex items-center gap-2">
+                        <label for="autoInitiative" class="text-sm">Auto-Init</label>
+                        <input type="checkbox" id="autoInitiative" class="mr-2" checked>
+                    </div>
                 </div>
                 <div id="individualInputs" class="flex flex-col gap-2 hidden"></div>
                 <button onclick="addMonsters()"
@@ -466,7 +472,6 @@
             </div>
         </div>
 
-        <!-- Monster List -->
         <div id="monsterList" class="space-y-4"></div>
     </div>
 
@@ -520,210 +525,222 @@
                     suggestionsDiv.appendChild(div);
                 }
 
-                if (filteredMonsters.length === 0) {
-                    suggestionsDiv.classList.add('hidden');
-                }
-            } catch (error) {
-                console.error('Error fetching monsters:', error);
+            if (filteredMonsters.length === 0) {
+                suggestionsDiv.classList.add('hidden');
             }
+        } catch (error) {
+            console.error('Error fetching monsters:', error);
+        }
+    }
+
+    document.getElementById('toggleAddForm').addEventListener('click', () => {
+        const form = document.getElementById('addMonsterForm');
+        const icon = document.getElementById('toggleIcon');
+        form.classList.toggle('hidden');
+        if (form.classList.contains('hidden')) {
+            icon.setAttribute('d', 'M5 9l7-7 7 7');
+        } else {
+            icon.setAttribute('d', 'M19 9l-7 7-7-7');
+        }
+    });
+
+    function calculateRandomHP(monsterDetails) {
+        if (!monsterDetails || !monsterDetails.hit_dice) {
+            return Math.max(1, Math.floor(Math.random() * 10) + 1);
         }
 
-        document.getElementById('toggleAddForm').addEventListener('click', () => {
-            const form = document.getElementById('addMonsterForm');
-            const icon = document.getElementById('toggleIcon');
-            form.classList.toggle('hidden');
-            if (form.classList.contains('hidden')) {
-                icon.setAttribute('d', 'M5 9l7-7 7 7');
-            } else {
-                icon.setAttribute('d', 'M19 9l-7 7-7-7');
-            }
-        });
+        const [numDice, dieSize] = monsterDetails.hit_dice.split('d').map(Number);
+        const conMod = Math.floor((monsterDetails.constitution - 10) / 2);
+        const averageHP = (numDice * (dieSize + 1) / 2) + (conMod * numDice);
+        const variation = averageHP * 0.1;
+        return Math.max(1, Math.floor(averageHP + (Math.random() * variation * 2 - variation)));
+    }
 
-        function calculateRandomHP(monsterDetails) {
-            if (!monsterDetails || !monsterDetails.hit_dice) {
-                return Math.max(1, Math.floor(Math.random() * 10) + 1);
-            }
+    function updateIndividualInputs() {
+        const count = parseInt(document.getElementById('monsterCount').value) || 1;
+        const singleHPInput = document.querySelector('[data-single-hp]');
+        const singleInitiativeInput = document.querySelector('[data-single-initiative]');
+        const individualInputs = document.getElementById('individualInputs');
+        const name = document.getElementById('monsterName').value.trim() || 'Monster';
+        const monsterDetails = monsterData[name];
+        const defaultHP = calculateRandomHP(monsterDetails);
 
-            const [numDice, dieSize] = monsterDetails.hit_dice.split('d').map(Number);
-            const conMod = Math.floor((monsterDetails.constitution - 10) / 2);
-            const averageHP = (numDice * (dieSize + 1) / 2) + (conMod * numDice);
-            const variation = averageHP * 0.1;
-            return Math.max(1, Math.floor(averageHP + (Math.random() * variation * 2 - variation)));
-        }
-
-        function updateIndividualInputs() {
-            const count = parseInt(document.getElementById('monsterCount').value) || 1;
-            const singleHPInput = document.querySelector('[data-single-hp]');
-            const singleInitiativeInput = document.querySelector('[data-single-initiative]');
-            const individualInputs = document.getElementById('individualInputs');
-            const name = document.getElementById('monsterName').value.trim() || 'Monster';
-            const monsterDetails = monsterData[name];
-            const defaultHP = calculateRandomHP(monsterDetails);
-
-            if (count > 1) {
-                singleHPInput.classList.add('hidden');
-                singleInitiativeInput.classList.add('hidden');
-                individualInputs.classList.remove('hidden');
-                individualInputs.innerHTML = Array.from({ length: count }, (_, i) => {
-                    const randomHP = calculateRandomHP(monsterDetails);
-                    return `
-                        <div class="flex flex-col sm:flex-row items-center gap-2">
-                            <label class="w-32">${name} ${i + 1}:</label>
-                            <input type="number" min="1" value="${randomHP}" class="border p-2 rounded w-24 individual-hp" placeholder="Max HP" required>
-                            <input type="number" class="border p-2 rounded w-24 individual-initiative" placeholder="Initiative" required>
-                        </div>
-                    `;
-                }).join('');
-            } else {
-                singleHPInput.classList.remove('hidden');
-                singleInitiativeInput.classList.remove('hidden');
-                singleHPInput.value = defaultHP;
-                individualInputs.classList.add('hidden');
-                individualInputs.innerHTML = '';
-            }
-        }
-
-        function addMonsters() {
-            const name = document.getElementById('monsterName').value.trim();
-            const count = parseInt(document.getElementById('monsterCount').value) || 1;
-
-            if (!name) {
-                alert('Please enter a valid monster name.');
-                return;
-            }
-
-            let hpValues = [];
-            let initiativeValues = [];
-            if (count === 1) {
-                const maxHP = parseInt(document.getElementById('monsterHP').value) || calculateRandomHP(monsterData[name]);
-                const initiative = parseInt(document.getElementById('monsterInitiative').value) || 0;
-                if (maxHP <= 0) {
-                    alert('Please enter a valid HP value.');
-                    return;
-                }
-                hpValues.push(maxHP);
-                initiativeValues.push(initiative);
-            } else {
-                const hpInputs = document.querySelectorAll('.individual-hp');
-                const initiativeInputs = document.querySelectorAll('.individual-initiative');
-                hpValues = Array.from(hpInputs).map(input => parseInt(input.value) || 1);
-                initiativeValues = Array.from(initiativeInputs).map(input => parseInt(input.value) || 0);
-                if (hpValues.some(hp => hp <= 0)) {
-                    alert('Please enter valid HP values for all monsters.');
-                    return;
-                }
-            }
-
-            for (let i = 0; i < count; i++) {
-                const monster = {
-                    id: Date.now() + i,
-                    name: `${name} ${count > 1 ? i + 1 : ''}`,
-                    maxHP: hpValues[i],
-                    currentHP: hpValues[i],
-                    initiative: initiativeValues[i]
-                };
-                monsters.push(monster);
-            }
-
-            document.getElementById('monsterName').value = '';
-            document.getElementById('monsterHP').value = '';
-            document.getElementById('monsterInitiative').value = '';
-            document.getElementById('monsterCount').value = '1';
-            document.getElementById('individualInputs').innerHTML = '';
-            document.querySelector('[data-single-hp]').classList.remove('hidden');
-            document.querySelector('[data-single-initiative]').classList.remove('hidden');
-            document.getElementById('individualInputs').classList.add('hidden');
-            document.getElementById('monsterSuggestions').classList.add('hidden');
-            renderMonsters();
-        }
-
-        function adjustHP(id, amount) {
-            const monster = monsters.find(m => m.id === id);
-            if (monster) {
-                monster.currentHP = Math.max(0, Math.min(monster.maxHP, monster.currentHP + amount));
-                renderMonsters();
-            }
-        }
-
-        function editHP(id) {
-            const monster = monsters.find(m => m.id === id);
-            if (monster) {
-                const list = document.getElementById('monsterList');
-                const card = list.querySelector(`[data-monster-id="${id}"]`);
-                const hpDisplay = card.querySelector('.hp-display');
-                hpDisplay.innerHTML = `
-                    <input type="number" id="editHP-${id}" value="${monster.currentHP}" min="0" max="${monster.maxHP}" class="border p-1 rounded w-16">
-                    <button onclick="saveHP(${id})" class="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 ml-2">Save</button>
-                `;
-            }
-        }
-
-        function saveHP(id) {
-            const monster = monsters.find(m => m.id === id);
-            if (monster) {
-                const input = document.getElementById(`editHP-${id}`);
-                const newHP = parseInt(input.value) || 0;
-                monster.currentHP = Math.max(0, Math.min(monster.maxHP, newHP));
-                renderMonsters();
-            }
-        }
-
-        function removeMonster(id) {
-            monsters = monsters.filter(m => m.id !== id);
-            renderMonsters();
-        }
-
-        function getStatus(monster) {
-            const hpRatio = monster.currentHP / monster.maxHP;
-            if (monster.currentHP === 0) return 'Dead';
-            if (hpRatio <= 0.25) return 'Critical';
-            if (hpRatio <= 0.5) return 'Bloodied';
-            if (hpRatio <= 0.75) return 'Injured';
-            return 'Healthy';
-        }
-
-        function renderMonsters() {
-            const list = document.getElementById('monsterList');
-            list.innerHTML = '';
-            monsters.sort((a, b) => b.initiative - a.initiative);
-
-            monsters.forEach(monster => {
-                const hpRatio = monster.currentHP / monster.maxHP;
-                const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
-                const segments = Array(monster.maxHP).fill().map((_, i) => `
-                    <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
-                `).join('');
-
-                const status = getStatus(monster);
-                const statusColor = {
-                    'Healthy': 'text-green-600',
-                    'Injured': 'text-yellow-600',
-                    'Bloodied': 'text-orange-600',
-                    'Critical': 'text-red-600',
-                    'Dead': 'text-gray-600'
-                }[status];
-
-                const isDead = monster.currentHP === 0;
-                const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''}`;
-
-                list.innerHTML += `
-                    <div class="${cardClasses}" data-monster-id="${monster.id}">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold">${monster.name} (Init: ${monster.initiative})</h3>
-                            <button onclick="removeMonster(${monster.id})" class="text-red-500 hover:text-red-700">Remove</button>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
-                            <span class="hp-display">${monster.currentHP}/${monster.maxHP} HP</span>
-                            <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
-                            <button onclick="editHP(${monster.id})" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Edit HP</button>
-                        </div>
-                        <div class="health-bar">${segments}</div>
-                        <span class="${statusColor} font-medium">Status: ${status}</span>
+        if (count > 1) {
+            singleHPInput.classList.add('hidden');
+            singleInitiativeInput.classList.add('hidden');
+            individualInputs.classList.remove('hidden');
+            individualInputs.innerHTML = Array.from({ length: count }, (_, i) => {
+                const randomHP = calculateRandomHP(monsterDetails);
+                return `
+                    <div class="flex flex-col sm:flex-row items-center gap-2">
+                        <label class="w-32">${name} ${i + 1}:</label>
+                        <input type="number" min="1" value="${randomHP}" class="border p-2 rounded w-24 individual-hp" placeholder="Max HP" required>
+                        <input type="number" class="border p-2 rounded w-24 individual-initiative" placeholder="Initiative" required>
                     </div>
                 `;
-            });
+            }).join('');
+        } else {
+            singleHPInput.classList.remove('hidden');
+            singleInitiativeInput.classList.remove('hidden');
+            singleHPInput.value = defaultHP;
+            individualInputs.classList.add('hidden');
+            individualInputs.innerHTML = '';
         }
-    </script>
+    }
+
+    function addMonsters() {
+        const name = document.getElementById('monsterName').value.trim();
+        const count = parseInt(document.getElementById('monsterCount').value) || 1;
+        const autoInitiative = document.getElementById('autoInitiative').checked;
+
+        if (!name) {
+            alert('Please enter a valid monster name.');
+            return;
+        }
+
+        let hpValues = [];
+        let initiativeValues = [];
+        if (count === 1) {
+            const maxHP = parseInt(document.getElementById('monsterHP').value) || calculateRandomHP(monsterData[name]);
+            let initiative = parseInt(document.getElementById('monsterInitiative').value) || 0;
+             if (autoInitiative && monsterData[name]?.dexterity) {
+                const dexModifier = Math.floor((monsterData[name].dexterity - 10) / 2);
+                initiative = Math.floor(Math.random() * 20) + 1 + dexModifier;
+            }
+            if (maxHP <= 0) {
+                alert('Please enter a valid HP value.');
+                return;
+            }
+            hpValues.push(maxHP);
+            initiativeValues.push(initiative);
+        } else {
+            const hpInputs = document.querySelectorAll('.individual-hp');
+            const initiativeInputs = document.querySelectorAll('.individual-initiative');
+            hpValues = Array.from(hpInputs).map(input => parseInt(input.value) || 1);
+            initiativeValues = Array.from(initiativeInputs).map((input, index) => {
+                letinitiative = parseInt(input.value) || 0;
+                if (autoInitiative && monsterData[name]?.dexterity) {
+                    const dexModifier = Math.floor((monsterData[name].dexterity - 10) / 2);
+                     initiative = Math.floor(Math.random() * 20) + 1 + dexModifier;
+                }
+                return initiative;
+            });
+            if (hpValues.some(hp => hp <= 0)) {
+                alert('Please enter valid HP values for all monsters.');
+                return;
+            }
+        }
+
+        for (let i = 0; i < count; i++) {
+            const monster = {
+                id: Date.now() + i,
+                name: `${name} ${count > 1 ? i + 1 : ''}`,
+                maxHP: hpValues[i],
+                currentHP: hpValues[i],
+                initiative: initiativeValues[i]
+            };
+            monsters.push(monster);
+        }
+
+        document.getElementById('monsterName').value = '';
+        document.getElementById('monsterHP').value = '';
+        document.getElementById('monsterInitiative').value = '';
+        document.getElementById('monsterCount').value = '1';
+        document.getElementById('individualInputs').innerHTML = '';
+        document.querySelector('[data-single-hp]').classList.remove('hidden');
+        document.querySelector('[data-single-initiative]').classList.remove('hidden');
+        document.getElementById('individualInputs').classList.add('hidden');
+        document.getElementById('monsterSuggestions').classList.add('hidden');
+        renderMonsters();
+    }
+
+    function adjustHP(id, amount) {
+        const monster = monsters.find(m => m.id === id);
+        if (monster) {
+            monster.currentHP = Math.max(0, Math.min(monster.maxHP, monster.currentHP + amount));
+            renderMonsters();
+        }
+    }
+
+    function editHP(id) {
+        const monster = monsters.find(m => m.id === id);
+        if (monster) {
+            const list = document.getElementById('monsterList');
+            const card = list.querySelector(`[data-monster-id="${id}"]`);
+            const hpDisplay = card.querySelector('.hp-display');
+            hpDisplay.innerHTML = `
+                <input type="number" id="editHP-${id}" value="${monster.currentHP}" min="0" max="${monster.maxHP}" class="border p-1 rounded w-16">
+                <button onclick="saveHP(${id})" class="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 ml-2">Save</button>
+            `;
+        }
+    }
+
+    function saveHP(id) {
+        const monster = monsters.find(m => m.id === id);
+        if (monster) {
+            const input = document.getElementById(`editHP-${id}`);
+            const newHP = parseInt(input.value) || 0;
+            monster.currentHP = Math.max(0, Math.min(monster.maxHP, newHP));
+            renderMonsters();
+        }
+    }
+
+    function removeMonster(id) {
+        monsters = monsters.filter(m => m.id !== id);
+        renderMonsters();
+    }
+
+    function getStatus(monster) {
+        const hpRatio = monster.currentHP / monster.maxHP;
+        if (monster.currentHP === 0) return 'Dead';
+        if (hpRatio <= 0.25) return 'Critical';
+        if (hpRatio <= 0.5) return 'Bloodied';
+        if (hpRatio <= 0.75) return 'Injured';
+        return 'Healthy';
+    }
+
+    function renderMonsters() {
+        const list = document.getElementById('monsterList');
+        list.innerHTML = '';
+        monsters.sort((a, b) => b.initiative - a.initiative);
+
+        monsters.forEach(monster => {
+            const hpRatio = monster.currentHP / monster.maxHP;
+            const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
+            const segments = Array(monster.maxHP).fill().map((_, i) => `
+                <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
+            `).join('');
+
+            const status = getStatus(monster);
+            const statusColor = {
+                'Healthy': 'text-green-600',
+                'Injured': 'text-yellow-600',
+                'Bloodied': 'text-orange-600',
+                'Critical': 'text-red-600',
+                'Dead': 'text-gray-600'
+            }[status];
+
+            const isDead = monster.currentHP === 0;
+            const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''}`;
+
+            list.innerHTML += `
+                <div class="${cardClasses}" data-monster-id="${monster.id}">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold">${monster.name} (Init: ${monster.initiative})</h3>
+                        <button onclick="removeMonster(${monster.id})" class="text-red-500 hover:text-red-700">Remove</button>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
+                        <span class="hp-display">${monster.currentHP}/${monster.maxHP} HP</span>
+                        <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
+                        <button onclick="editHP(${monster.id})" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Edit HP</button>
+                    </div>
+                    <div class="health-bar">${segments}</div>
+                    <span class="${statusColor} font-medium">Status: ${status}</span>
+                </div>
+            `;
+        });
+    }
+</script>
 </body>
 </html>
