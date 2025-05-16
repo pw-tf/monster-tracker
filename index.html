@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D 5e Monster Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        /* Dark mode overrides */
+        body.dark {
+            background-color: #1f2937;
+            color: #f9fafb;
+        }
+
+        body.dark .bg-white {
+            background-color: #374151;
+            color: #f9fafb;
+        }
+
+        body.dark .text-black {
+            color: #f9fafb;
+        }
+
+        body.dark .border {
+            border-color: #4b5563;
+        }
+
+        body.dark input,
+        body.dark button {
+            background-color: #4b5563;
+            color: #f9fafb;
+        }
+
+        body.dark .health-bar {
+            background-color: #4b5563;
+        }
+
+        body.dark #monsterSuggestions {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+
+        body.dark #monsterSuggestions div:hover {
+            background-color: #4b5563;
+        }
+
+        .health-bar {
+            display: flex;
+            height: 20px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .health-segment {
+            flex: 1;
+            background-color: #22c55e;
+            border-right: 1px solid #fff;
+        }
+
+        .health-segment:last-child {
+            border-right: none;
+        }
+
+        .empty-segment {
+            background-color: #e5e7eb;
+        }
+
+        #monsterSuggestions {
+            position: absolute;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 10;
+        }
+
+        #monsterSuggestions div {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        #monsterSuggestions div:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* New toggle switch styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch #input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2196f3;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .sun-moon {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: yellow;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+        }
+
+        #input:checked + .slider {
+            background-color: black;
+        }
+
+        #input:focus + .slider {
+            box-shadow: 0 0 1px #2196f3;
+        }
+
+        #input:checked + .slider .sun-moon {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+            background-color: white;
+            -webkit-animation: rotate-center 0.6s ease-in-out both;
+            animation: rotate-center 0.6s ease-in-out both;
+        }
+
+        .moon-dot {
+            opacity: 0;
+            transition: 0.4s;
+            fill: gray;
+        }
+
+        #input:checked + .slider .sun-moon .moon-dot {
+            opacity: 1;
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round .sun-moon {
+            border-radius: 50%;
+        }
+
+        #moon-dot-1 {
+            left: 10px;
+            top: 3px;
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            z-index: 4;
+        }
+
+        #moon-dot-2 {
+            left: 2px;
+            top: 10px;
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            z-index: 4;
+        }
+
+        #moon-dot-3 {
+            left: 16px;
+            top: 18px;
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            z-index: 4;
+        }
+
+        #light-ray-1 {
+            left: -8px;
+            top: -8px;
+            position: absolute;
+            width: 43px;
+            height: 43px;
+            z-index: -1;
+            fill: white;
+            opacity: 10%;
+        }
+
+        #light-ray-2 {
+            left: -50%;
+            top: -50%;
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            z-index: -1;
+            fill: white;
+            opacity: 10%;
+        }
+
+        #light-ray-3 {
+            left: -18px;
+            top: -18px;
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: -1;
+            fill: white;
+            opacity: 10%;
+        }
+
+        .cloud-light {
+            position: absolute;
+            fill: #eee;
+            animation-name: cloud-move;
+            animation-duration: 6s;
+            animation-iteration-count: infinite;
+        }
+
+        .cloud-dark {
+            position: absolute;
+            fill: #ccc;
+            animation-name: cloud-move;
+            animation-duration: 6s;
+            animation-iteration-count: infinite;
+            animation-delay: 1s;
+        }
+
+        #cloud-1 {
+            left: 30px;
+            top: 15px;
+            width: 40px;
+        }
+
+        #cloud-2 {
+            left: 44px;
+            top: 10px;
+            width: 20px;
+        }
+
+        #cloud-3 {
+            left: 18px;
+            top: 24px;
+            width: 30px;
+        }
+
+        #cloud-4 {
+            left: 36px;
+            top: 18px;
+            width: 40px;
+        }
+
+        #cloud-5 {
+            left: 48px;
+            top: 14px;
+            width: 20px;
+        }
+
+        #cloud-6 {
+            left: 22px;
+            top: 26px;
+            width: 30px;
+        }
+
+        @keyframes cloud-move {
+            0% {
+                transform: translateX(0px);
+            }
+
+            40% {
+                transform: translateX(4px);
+            }
+
+            80% {
+                transform: translateX(-4px);
+            }
+
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
+        .stars {
+            transform: translateY(-32px);
+            opacity: 0;
+            transition: 0.4s;
+ humour
+        }
+
+        .star {
+            fill: white;
+            position: absolute;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+            animation-name: star-twinkle;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        }
+
+        #input:checked + .slider .stars {
+            -webkit-transform: translateY(0);
+            -ms-transform: translateY(0);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #star-1 {
+            width: 20px;
+            top: 2px;
+            left: 3px;
+            animation-delay: 0.3s;
+        }
+
+        #star-2 {
+            width: 6px;
+            top: 16px;
+            left: 3px;
+        }
+
+        #star-3 {
+            width: 12px;
+            top: 20px;
+            left: 10px;
+            animation-delay: 0.6s;
+        }
+
+        #star-4 {
+            width: 18px;
+            top: 0px;
+            left: 18px;
+            animation-delay: 1.3s;
+        }
+
+        @keyframes star-twinkle {
+            0% {
+                transform: scale(1);
+            }
+
+            40% {
+                transform: scale(1.2);
+            }
+
+            80% {
+                transform: scale(0.8);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-center">D&D 5e Monster Tracker</h1>
+            <label class="switch">
+                <input id="input" type="checkbox" />
+                <div class="slider round">
+                    <div class="sun-moon">
+                        <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                        <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                    </div>
+                    <div class="stars">
+                        <svg id="star-1" class="star" viewBox="0 0 20 20">
+                            <path
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                            ></path>
+                        </svg>
+                        <svg id="star-2" class="star" viewBox="0 0 20 20">
+                            <path
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                            ></path>
+                        </svg>
+                        <svg id="star-3" class="star" viewBox="0 0 20 20">
+                            <path
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                            ></path>
+                        </svg>
+                        <svg id="star-4" class="star" viewBox="0 0 20 20">
+                            <path
+                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                            ></path>
+                        </svg>
+                    </div>
+                </div>
+            </label>
+        </div>
+
+        <!-- Add Monster Form -->
+        <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold">Add Monsters</h2>
+                <button id="toggleAddForm" class="text-blue-500 hover:text-blue-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path id="toggleIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="addMonsterForm" class="mt-4 flex flex-col gap-4">
+                <div class="flex flex-col sm:flex-row gap-4 relative">
+                    <div class="relative flex-1">
+                        <input type="text" id="monsterName" placeholder="Monster Name (e.g., Goblin)"
+                            class="border p-2 rounded w-full" oninput="fetchMonsterSuggestions()">
+                        <div id="monsterSuggestions" class="hidden"></div>
+                    </div>
+                    <input type="number" id="monsterCount" placeholder="Count" min="1" value="1"
+                        class="border p-2 rounded w-24" oninput="updateIndividualInputs()">
+                    <input type="number" id="monsterHP" placeholder="Max HP" min="1"
+                        class="border p-2 rounded w-24" data-single-hp>
+                    <input type="number" id="monsterInitiative" placeholder="Initiative"
+                        class="border p-2 rounded w-24" data-single-initiative>
+                </div>
+                <div id="individualInputs" class="flex flex-col gap-2 hidden"></div>
+                <button onclick="addMonsters()"
+                    class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 self-end">Add</button>
+            </div>
+        </div>
+
+        <!-- Monster List -->
+        <div id="monsterList" class="space-y-4"></div>
+    </div>
+
+    <script>
+        let monsters = [];
+        let monsterData = [];
+
+        // Dark Mode Setup
+        const darkModeToggle = document.getElementById('input');
+        const prefersDark = localStorage.getItem('darkMode') === 'true';
+
+        if (prefersDark) {
+            document.body.classList.add('dark');
+            darkModeToggle.checked = true;
+        }
+
+        darkModeToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+        });
+
+        // Fetch monster list from D&D 5e API
+        async function fetchMonsterSuggestions() {
+            const query = document.getElementById('monsterName').value.trim();
+            if (query.length < 2) {
+                document.getElementById('monsterSuggestions').classList.add('hidden');
+                return;
+            }
+
+            try {
+                const response = await axios.get('https://www.dnd5eapi.co/api/monsters');
+                const monstersList = response.data.results;
+                const filteredMonsters = monstersList.filter(m => m.name.toLowerCase().includes(query.toLowerCase()));
+
+                const suggestionsDiv = document.getElementById('monsterSuggestions');
+                suggestionsDiv.innerHTML = '';
+                suggestionsDiv.classList.remove('hidden');
+
+                for (const monster of filteredMonsters) {
+                    const div = document.createElement('div');
+                    div.textContent = monster.name;
+                    div.onclick = async () => {
+                        document.getElementById('monsterName').value = monster.name;
+                        suggestionsDiv.classList.add('hidden');
+                        const monsterResponse = await axios.get(`https://www.dnd5eapi.co${monster.url}`);
+                        const monsterDetails = monsterResponse.data;
+                        document.getElementById('monsterHP').value = monsterDetails.hit_points;
+                        monsterData[monster.name] = monsterDetails;
+                    };
+                    suggestionsDiv.appendChild(div);
+                }
+
+                if (filteredMonsters.length === 0) {
+                    suggestionsDiv.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Error fetching monsters:', error);
+            }
+        }
+
+        document.getElementById('toggleAddForm').addEventListener('click', () => {
+            const form = document.getElementById('addMonsterForm');
+            const icon = document.getElementById('toggleIcon');
+            form.classList.toggle('hidden');
+            if (form.classList.contains('hidden')) {
+                icon.setAttribute('d', 'M5 9l7-7 7 7');
+            } else {
+                icon.setAttribute('d', 'M19 9l-7 7-7-7');
+            }
+        });
+
+        function calculateRandomHP(monsterDetails) {
+            if (!monsterDetails || !monsterDetails.hit_dice) {
+                return Math.max(1, Math.floor(Math.random() * 10) + 1);
+            }
+
+            const [numDice, dieSize] = monsterDetails.hit_dice.split('d').map(Number);
+            const conMod = Math.floor((monsterDetails.constitution - 10) / 2);
+            const averageHP = (numDice * (dieSize + 1) / 2) + (conMod * numDice);
+            const variation = averageHP * 0.1;
+            return Math.max(1, Math.floor(averageHP + (Math.random() * variation * 2 - variation)));
+        }
+
+        function updateIndividualInputs() {
+            const count = parseInt(document.getElementById('monsterCount').value) || 1;
+            const singleHPInput = document.querySelector('[data-single-hp]');
+            const singleInitiativeInput = document.querySelector('[data-single-initiative]');
+            const individualInputs = document.getElementById('individualInputs');
+            const name = document.getElementById('monsterName').value.trim() || 'Monster';
+            const monsterDetails = monsterData[name];
+            const defaultHP = calculateRandomHP(monsterDetails);
+
+            if (count > 1) {
+                singleHPInput.classList.add('hidden');
+                singleInitiativeInput.classList.add('hidden');
+                individualInputs.classList.remove('hidden');
+                individualInputs.innerHTML = Array.from({ length: count }, (_, i) => {
+                    const randomHP = calculateRandomHP(monsterDetails);
+                    return `
+                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                            <label class="w-32">${name} ${i + 1}:</label>
+                            <input type="number" min="1" value="${randomHP}" class="border p-2 rounded w-24 individual-hp" placeholder="Max HP" required>
+                            <input type="number" class="border p-2 rounded w-24 individual-initiative" placeholder="Initiative" required>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                singleHPInput.classList.remove('hidden');
+                singleInitiativeInput.classList.remove('hidden');
+                singleHPInput.value = defaultHP;
+                individualInputs.classList.add('hidden');
+                individualInputs.innerHTML = '';
+            }
+        }
+
+        function addMonsters() {
+            const name = document.getElementById('monsterName').value.trim();
+            const count = parseInt(document.getElementById('monsterCount').value) || 1;
+
+            if (!name) {
+                alert('Please enter a valid monster name.');
+                return;
+            }
+
+            let hpValues = [];
+            let initiativeValues = [];
+            if (count === 1) {
+                const maxHP = parseInt(document.getElementById('monsterHP').value) || calculateRandomHP(monsterData[name]);
+                const initiative = parseInt(document.getElementById('monsterInitiative').value) || 0;
+                if (maxHP <= 0) {
+                    alert('Please enter a valid HP value.');
+                    return;
+                }
+                hpValues.push(maxHP);
+                initiativeValues.push(initiative);
+            } else {
+                const hpInputs = document.querySelectorAll('.individual-hp');
+                const initiativeInputs = document.querySelectorAll('.individual-initiative');
+                hpValues = Array.from(hpInputs).map(input => parseInt(input.value) || 1);
+                initiativeValues = Array.from(initiativeInputs).map(input => parseInt(input.value) || 0);
+                if (hpValues.some(hp => hp <= 0)) {
+                    alert('Please enter valid HP values for all monsters.');
+                    return;
+                }
+            }
+
+            for (let i = 0; i < count; i++) {
+                const monster = {
+                    id: Date.now() + i,
+                    name: `${name} ${count > 1 ? i + 1 : ''}`,
+                    maxHP: hpValues[i],
+                    currentHP: hpValues[i],
+                    initiative: initiativeValues[i]
+                };
+                monsters.push(monster);
+            }
+
+            document.getElementById('monsterName').value = '';
+            document.getElementById('monsterHP').value = '';
+            document.getElementById('monsterInitiative').value = '';
+            document.getElementById('monsterCount').value = '1';
+            document.getElementById('individualInputs').innerHTML = '';
+            document.querySelector('[data-single-hp]').classList.remove('hidden');
+            document.querySelector('[data-single-initiative]').classList.remove('hidden');
+            document.getElementById('individualInputs').classList.add('hidden');
+            document.getElementById('monsterSuggestions').classList.add('hidden');
+            renderMonsters();
+        }
+
+        function adjustHP(id, amount) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                monster.currentHP = Math.max(0, Math.min(monster.maxHP, monster.currentHP + amount));
+                renderMonsters();
+            }
+        }
+
+        function editHP(id) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const list = document.getElementById('monsterList');
+                const card = list.querySelector(`[data-monster-id="${id}"]`);
+                const hpDisplay = card.querySelector('.hp-display');
+                hpDisplay.innerHTML = `
+                    <input type="number" id="editHP-${id}" value="${monster.currentHP}" min="0" max="${monster.maxHP}" class="border p-1 rounded w-16">
+                    <button onclick="saveHP(${id})" class="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 ml-2">Save</button>
+                `;
+            }
+        }
+
+        function saveHP(id) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const input = document.getElementById(`editHP-${id}`);
+                const newHP = parseInt(input.value) || 0;
+                monster.currentHP = Math.max(0, Math.min(monster.maxHP, newHP));
+                renderMonsters();
+            }
+        }
+
+        function removeMonster(id) {
+            monsters = monsters.filter(m => m.id !== id);
+            renderMonsters();
+        }
+
+        function getStatus(monster) {
+            const hpRatio = monster.currentHP / monster.maxHP;
+            if (monster.currentHP === 0) return 'Dead';
+            if (hpRatio <= 0.25) return 'Critical';
+            if (hpRatio <= 0.5) return 'Bloodied';
+            if (hpRatio <= 0.75) return 'Injured';
+            return 'Healthy';
+        }
+
+        function renderMonsters() {
+            const list = document.getElementById('monsterList');
+            list.innerHTML = '';
+            monsters.sort((a, b) => b.initiative - a.initiative);
+
+            monsters.forEach(monster => {
+                const hpRatio = monster.currentHP / monster.maxHP;
+                const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
+                const segments = Array(monster.maxHP).fill().map((_, i) => `
+                    <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
+                `).join('');
+
+                const status = getStatus(monster);
+                const statusColor = {
+                    'Healthy': 'text-green-600',
+                    'Injured': 'text-yellow-600',
+                    'Bloodied': 'text-orange-600',
+                    'Critical': 'text-red-600',
+                    'Dead': 'text-gray-600'
+                }[status];
+
+                const isDead = monster.currentHP === 0;
+                const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''}`;
+
+                list.innerHTML += `
+                    <div class="${cardClasses}" data-monster-id="${monster.id}">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">${monster.name} (Init: ${monster.initiative})</h3>
+                            <button onclick="removeMonster(${monster.id})" class="text-red-500 hover:text-red-700">Remove</button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
+                            <span class="hp-display">${monster.currentHP}/${monster.maxHP} HP</span>
+                            <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
+                            <button onclick="editHP(${monster.id})" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Edit HP</button>
+                        </div>
+                        <div class="health-bar">${segments}</div>
+                        <span class="${statusColor} font-medium">Status: ${status}</span>
+                    </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
