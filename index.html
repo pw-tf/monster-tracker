@@ -27,7 +27,9 @@
         }
 
         body.dark input,
-        body.dark button {
+        body.dark button,
+        body.dark textarea,
+        body.dark select {
             background-color: #4b5563;
             color: #f9fafb;
         }
@@ -43,6 +45,17 @@
 
         body.dark #monsterSuggestions div:hover {
             background-color: #4b5563;
+        }
+
+        body.dark .ac-display,
+        body.dark .initiative-display {
+            background-color: #4b5563;
+            color: #f9fafb;
+        }
+
+        body.dark .ac-display:hover,
+        body.dark .initiative-display:hover {
+            background-color: #6b7280;
         }
 
         .health-bar {
@@ -87,7 +100,7 @@
             background-color: #f3f4f6;
         }
 
-        /* New toggle switch styles */
+        /* Dark mode toggle switch styles */
         .switch {
             position: relative;
             display: inline-block;
@@ -95,7 +108,7 @@
             height: 34px;
         }
 
-        .switch #input {
+        .switch #darkModeInput {
             opacity: 0;
             width: 0;
             height: 0;
@@ -127,15 +140,15 @@
             transition: 0.4s;
         }
 
-        #input:checked + .slider {
+        #darkModeInput:checked + .slider {
             background-color: black;
         }
 
-        #input:focus + .slider {
+        #darkModeInput:focus + .slider {
             box-shadow: 0 0 1px #2196f3;
         }
 
-        #input:checked + .slider .sun-moon {
+        #darkModeInput:checked + .slider .sun-moon {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
@@ -150,7 +163,7 @@
             fill: gray;
         }
 
-        #input:checked + .slider .sun-moon .moon-dot {
+        #darkModeInput:checked + .slider .sun-moon .moon-dot {
             opacity: 1;
         }
 
@@ -297,7 +310,6 @@
             transform: translateY(-32px);
             opacity: 0;
             transition: 0.4s;
- humour
         }
 
         .star {
@@ -310,7 +322,7 @@
             animation-iteration-count: infinite;
         }
 
-        #input:checked + .slider .stars {
+        #darkModeInput:checked + .slider .stars {
             -webkit-transform: translateY(0);
             -ms-transform: translateY(0);
             transform: translateY(0);
@@ -361,77 +373,381 @@
                 transform: scale(1);
             }
         }
+
+        /* Simple/Advanced mode text toggle styles */
+        .mode-toggle {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: medium;
+            color: #1f2937;
+            user-select: none;
+        }
+
+        body.dark .mode-toggle {
+            color: #f9fafb;
+        }
+
+        .mode-toggle .simple-label {
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .mode-toggle .advanced-label {
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .mode-toggle.advanced .simple-label {
+            opacity: 0.5;
+        }
+
+        .mode-toggle.advanced .advanced-label {
+            opacity: 1;
+        }
+
+        .mode-toggle:hover .simple-label,
+        .mode-toggle:hover .advanced-label {
+            opacity: 0.8;
+        }
+
+        /* Full/Compact mode text toggle styles */
+        .compact-toggle {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: medium;
+            color: #1f2937;
+            user-select: none;
+        }
+
+        body.dark .compact-toggle {
+            color: #f9fafb;
+        }
+
+        .compact-toggle .full-label {
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .compact-toggle .compact-label {
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .compact-toggle.compact .full-label {
+            opacity: 0.5;
+        }
+
+        .compact-toggle.compact .compact-label {
+            opacity: 1;
+        }
+
+        .compact-toggle:hover .full-label,
+        .compact-toggle:hover .compact-label {
+            opacity: 0.8;
+        }
+
+        .hp-display {
+            cursor: pointer;
+        }
+
+        .initiative-display,
+        .ac-display {
+            cursor: pointer;
+            background-color: #e5e7eb;
+            color: #1f2937;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .initiative-display:hover,
+        .ac-display:hover {
+            background-color: #d1d5db;
+        }
+
+        .remove-button {
+            color: #ef4444;
+            transition: color 0.2s;
+        }
+
+        .remove-button:hover {
+            color: #b91c1c;
+        }
+
+        .remove-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .ver {
+            opacity: 30%;
+            text-align: center;
+            font-size: 70%;
+        }
+        
+        #changelogBox {
+            opacity: 100% !important;
+        }
+
+        /* Border styles for Player and NPC */
+        .player-border {
+            border: 2px solid #3b82f6; /* Blue border for players */
+        }
+
+        .npc-border {
+            border: 2px solid #a16207; /* Light brown border for NPCs */
+        }
+
+        /* Custom border color override */
+        .custom-border {
+            border: 2px solid var(--custom-border-color, transparent) !important;
+        }
+
+        /* Notes textarea styles */
+        .notes-textarea {
+            resize: vertical;
+            min-height: 40px;
+            max-height: 100px;
+            width: 100%;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 4px;
+        }
+
+        body.dark .notes-textarea {
+            border-color: #4b5563;
+        }
+
+        /* Settings panel styles */
+        #settingsPanel {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 16px;
+            z-index: 20;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark #settingsPanel {
+            background: #374151;
+            border-color: #4b5563;
+        }
+
+        .settings-button {
+            color: #1f2937;
+            transition: color 0.2s;
+        }
+
+        body.dark .settings-button {
+            color: #f9fafb;
+        }
+
+        .settings-button:hover {
+            color: #3b82f6;
+        }
+
+        .settings-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Compact mode styles */
+        body.compact .container {
+            max-width: 700px; /* reduce overall container width */
+            padding: 4px !important;
+        }
+
+        body.compact .text-2xl {
+            font-size: 1.125rem !important;
+        }
+
+        body.compact .text-lg {
+            font-size: 0.875rem !important;
+        }
+
+        body.compact .text-base {
+            font-size: 0.75rem !important;
+        }
+
+        body.compact .p-4 {
+            padding: 6px !important;
+        }
+
+        body.compact .p-2 {
+            padding: 2px !important;
+        }
+
+        body.compact .rounded-lg {
+            border-radius: 2px !important;
+        }
+
+        body.compact .mb-6 {
+            margin-bottom: 8px !important;
+        }
+
+        body.compact .mb-4 {
+            margin-bottom: 6px !important;
+        }
+
+        body.compact .space-y-4 {
+            gap: 6px !important;
+        }
+
+        body.compact .gap-4 {
+            gap: 4px !important;
+        }
+
+        body.compact .w-24 {
+            width: 56px !important;
+        }
+
+        body.compact .health-bar {
+            height: 10px !important;
+        }
+
+        body.compact .notes-textarea {
+            min-height: 20px !important;
+            max-height: 48px !important;
+            font-size: 0.75rem !important;
+            padding: 2px !important;
+        }
+
+        body.compact .settings-button svg,
+        body.compact .remove-button svg,
+        body.compact .initiative-display,
+        body.compact .ac-display,
+        body.compact button {
+            scale: 0.9;
+        }
+
+        body.compact .initiative-display,
+        body.compact .ac-display {
+            padding: 1px 4px !important;
+            font-size: 0.75rem !important;
+        }
+
+        body.compact input,
+        body.compact select {
+            padding: 2px 4px !important;
+            font-size: 0.75rem !important;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
     <div class="container mx-auto p-4">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold text-center">D&D 5e Monster Tracker</h1>
-            <label class="switch">
-                <input id="input" type="checkbox" />
-                <div class="slider round">
-                    <div class="sun-moon">
-                        <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
-                        <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="50"></circle>
-                        </svg>
+            <div class="flex items-center gap-4">
+                <button id="settingsButton" class="settings-button">
+                    <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.3-.06.62-.06.94s.02.64.06.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                </button>
+                <div id="settingsPanel" class="hidden">
+                    <div class="flex flex-col gap-4">
+                        <span id="modeToggle" class="mode-toggle">
+                            <span class="simple-label">Simple</span> | <span class="advanced-label">Advanced</span>
+                        </span>
+                        <span id="compactToggle" class="compact-toggle hidden sm:inline">
+                            <span class="full-label">Full</span> | <span class="compact-label">Compact</span>
+                        </span>
+                        <label class="switch">
+                            <input id="darkModeInput" type="checkbox" />
+                            <div class="slider round">
+                                <div class="sun-moon">
+                                    <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                    <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="50"></circle>
+                                    </svg>
+                                </div>
+                                <div class="stars">
+                                    <svg id="star-1" class="star" viewBox="0 0 20 20">
+                                        <path
+                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                                        ></path>
+                                    </svg>
+                                    <svg id="star-2" class="star" viewBox="0 0 20 20">
+                                        <path
+                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                                        ></path>
+                                    </svg>
+                                    <svg id="star-3" class="star" viewBox="0 0 20 20">
+                                        <path
+                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                                        ></path>
+                                    </svg>
+                                    <svg id="star-4" class="star" viewBox="0 0 20 20">
+                                        <path
+                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </label>
                     </div>
-                    <div class="stars">
-                        <svg id="star-1" class="star" viewBox="0 0 20 20">
-                            <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
-                        </svg>
-                        <svg id="star-2" class="star" viewBox="0 0 20 20">
-                            <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
-                        </svg>
-                        <svg id="star-3" class="star" viewBox="0 0 20 20">
-                            <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
-                        </svg>
-                        <svg id="star-4" class="star" viewBox="0 0 20 20">
-                            <path
-                                d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                            ></path>
-                        </svg>
+                    <button id="toggleChangelog" class="text-blue-600 hover:underline text-left">View Changelog</button>
+                    <div id="changelogBox" class="text-sm bg-white border border-gray-300 rounded p-3 shadow hidden dark:bg-gray-700 dark:border-gray-500">
+<p><strong>v1.1 Changes:</strong></p>
+<ol>
+    <li><span style="text-decoration: underline;">Major Changes</span><strong>:</strong><br />
+        <ol style="list-style-type: lower-alpha;">
+            <li>Introduced Simple/Advanced toggle:
+                <ol style="list-style-type: lower-roman;">
+                    <li>Enables/disables visibility of "Type" (Monster/Player/NPC) with customizable border color options for monster blocks.</li>
+                    <li>Custom border colors override default Player (blue) and NPC (brown) highlights in Advanced mode.</li>
+                    <li>Toggles visibility of a notes section for each monster.</li>
+                </ol>
+            </li>
+            <li>Added Full/Compact toggle to adjust display size for improved desktop viewing.</li>
+            <li>Enabled editing of AC, Initiative, and Health after a monster is added.</li>
+        </ol>
+    </li>
+    <li><span style="text-decoration: underline;">Minor Changes</span>:
+        <ol style="list-style-type: lower-alpha;">
+            <li>Added a cogwheel icon to toggle visibility of settings.</li>
+            <li>Implemented general performance improvements.</li>
+            <li>Updated changelog to reflect all v1.1 changes.</li>
+        </ol>
+    </li>
+</ol>
                     </div>
                 </div>
-            </label>
+            </div>
         </div>
 
         <!-- Add Monster Form -->
@@ -447,19 +763,39 @@
                 </button>
             </div>
             <div id="addMonsterForm" class="mt-4 flex flex-col gap-4">
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="autoInitiative" checked class="mr-2">
+                        <span>Auto Initiative</span>
+                    </label>
+                    <label id="entityTypeContainer" class="flex items-center advanced-field">
+                        <span class="mr-2">Type:</span>
+                        <select id="entityType" class="border p-2 rounded">
+                            <option value="monster" selected>Monster</option>
+                            <option value="player">Player</option>
+                            <option value="npc">NPC</option>
+                        </select>
+                    </label>
+                </div>
                 <div class="flex flex-col sm:flex-row gap-4 relative">
                     <div class="relative flex-1">
                         <input type="text" id="monsterName" placeholder="Monster Name (e.g., Goblin)"
                             class="border p-2 rounded w-full" oninput="fetchMonsterSuggestions()">
                         <div id="monsterSuggestions" class="hidden"></div>
                     </div>
-                    <input type="number" id="monsterCount" placeholder="Count" min="1" value="1"
+                    <input type="number" id="monsterCount" placeholder="No. #" min="1" value=""
                         class="border p-2 rounded w-24" oninput="updateIndividualInputs()">
-                    <input type="number" id="monsterHP" placeholder="Max HP" min="1"
+                    <input type="number" id="monsterHP" placeholder="HP" min="1"
                         class="border p-2 rounded w-24" data-single-hp>
-                    <input type="number" id="monsterInitiative" placeholder="Initiative"
-                        class="border p-2 rounded w-24" data-single-initiative>
+                    <input type="number" id="monsterInitiative" placeholder="INIT"
+                        class="border p-2 rounded w-24 hidden" data-single-initiative>
                 </div>
+                
+                                    <label id="borderColorContainer" class="flex items-center advanced-field">
+                        <span class="mr-2">Border Color:</span>
+                        <input type="color" id="borderColor" value="#000000" class="border p-1 rounded">
+                    </label>
+                
                 <div id="individualInputs" class="flex flex-col gap-2 hidden"></div>
                 <button onclick="addMonsters()"
                     class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 self-end">Add</button>
@@ -475,7 +811,7 @@
         let monsterData = [];
 
         // Dark Mode Setup
-        const darkModeToggle = document.getElementById('input');
+        const darkModeToggle = document.getElementById('darkModeInput');
         const prefersDark = localStorage.getItem('darkMode') === 'true';
 
         if (prefersDark) {
@@ -487,6 +823,84 @@
             document.body.classList.toggle('dark');
             const isDark = document.body.classList.contains('dark');
             localStorage.setItem('darkMode', isDark);
+        });
+
+        // Simple/Advanced Mode Setup
+        const modeToggle = document.getElementById('modeToggle');
+        const prefersAdvanced = localStorage.getItem('advancedMode') === 'true';
+
+        if (prefersAdvanced) {
+            modeToggle.classList.add('advanced');
+            toggleAdvancedFields(true);
+        } else {
+            toggleAdvancedFields(false);
+        }
+
+        modeToggle.addEventListener('click', () => {
+            const isAdvanced = !modeToggle.classList.contains('advanced');
+            modeToggle.classList.toggle('advanced', isAdvanced);
+            localStorage.setItem('advancedMode', isAdvanced);
+            toggleAdvancedFields(isAdvanced);
+            renderMonsters();
+        });
+
+        // Full/Compact Mode Setup
+        const compactToggle = document.getElementById('compactToggle');
+        const prefersCompact = localStorage.getItem('compactMode') === 'true';
+
+        if (prefersCompact) {
+            document.body.classList.add('compact');
+            compactToggle.classList.add('compact');
+        }
+
+        compactToggle.addEventListener('click', () => {
+            const isCompact = !compactToggle.classList.contains('compact');
+            compactToggle.classList.toggle('compact', isCompact);
+            document.body.classList.toggle('compact', isCompact);
+            localStorage.setItem('compactMode', isCompact);
+        });
+
+        // Settings Panel Toggle
+        const settingsButton = document.getElementById('settingsButton');
+        const settingsPanel = document.getElementById('settingsPanel');
+        settingsButton.addEventListener('click', () => {
+            settingsPanel.classList.toggle('hidden');
+        });
+
+        // Close settings panel when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!settingsPanel.contains(event.target) && !settingsButton.contains(event.target)) {
+                settingsPanel.classList.add('hidden');
+            }
+        });
+
+        // Changelog Toggle
+        const toggleButton = document.getElementById('toggleChangelog');
+        const changelogBox = document.getElementById('changelogBox');
+
+        toggleButton.addEventListener('click', () => {
+            const isVisible = !changelogBox.classList.contains('hidden');
+            changelogBox.classList.toggle('hidden');
+            toggleButton.textContent = isVisible ? 'View Changelog' : 'Hide Changelog';
+        });
+
+        function toggleAdvancedFields(isAdvanced) {
+            const entityTypeContainer = document.getElementById('entityTypeContainer');
+            const borderColorContainer = document.getElementById('borderColorContainer');
+            const notesFields = document.querySelectorAll('.notes-field');
+            entityTypeContainer.classList.toggle('hidden', !isAdvanced);
+            borderColorContainer.classList.toggle('hidden', !isAdvanced);
+            notesFields.forEach(field => field.classList.toggle('hidden', !isAdvanced));
+        }
+
+        // Auto Initiative Toggle
+        const autoInitiativeCheckbox = document.getElementById('autoInitiative');
+        const singleInitiativeInput = document.querySelector('[data-single-initiative]');
+        
+        autoInitiativeCheckbox.addEventListener('change', () => {
+            const isAuto = autoInitiativeCheckbox.checked;
+            singleInitiativeInput.classList.toggle('hidden', isAuto);
+            updateIndividualInputs();
         });
 
         // Fetch monster list from D&D 5e API
@@ -533,7 +947,7 @@
             const icon = document.getElementById('toggleIcon');
             form.classList.toggle('hidden');
             if (form.classList.contains('hidden')) {
-                icon.setAttribute('d', 'M5 9l7-7 7 7');
+                icon.setAttribute('d', 'M5 15l7-7 7 7');
             } else {
                 icon.setAttribute('d', 'M19 9l-7 7-7-7');
             }
@@ -551,6 +965,13 @@
             return Math.max(1, Math.floor(averageHP + (Math.random() * variation * 2 - variation)));
         }
 
+        function rollInitiative(monsterDetails) {
+            const dexMod = monsterDetails && monsterDetails.dexterity 
+                ? Math.floor((monsterDetails.dexterity - 10) / 2)
+                : 0;
+            return Math.floor(Math.random() * 20) + 1 + dexMod;
+        }
+
         function updateIndividualInputs() {
             const count = parseInt(document.getElementById('monsterCount').value) || 1;
             const singleHPInput = document.querySelector('[data-single-hp]');
@@ -559,6 +980,7 @@
             const name = document.getElementById('monsterName').value.trim() || 'Monster';
             const monsterDetails = monsterData[name];
             const defaultHP = calculateRandomHP(monsterDetails);
+            const isAutoInitiative = autoInitiativeCheckbox.checked;
 
             if (count > 1) {
                 singleHPInput.classList.add('hidden');
@@ -569,14 +991,14 @@
                     return `
                         <div class="flex flex-col sm:flex-row items-center gap-2">
                             <label class="w-32">${name} ${i + 1}:</label>
-                            <input type="number" min="1" value="${randomHP}" class="border p-2 rounded w-24 individual-hp" placeholder="Max HP" required>
-                            <input type="number" class="border p-2 rounded w-24 individual-initiative" placeholder="Initiative" required>
+                            <input type="number" min="1" value="${randomHP}" class="border p-2 rounded w-24 individual-hp" placeholder="HP" required>
+                            <input type="number" class="${isAutoInitiative ? 'hidden' : ''} border p-2 rounded w-24 individual-initiative" placeholder="INIT" required>
                         </div>
                     `;
                 }).join('');
             } else {
                 singleHPInput.classList.remove('hidden');
-                singleInitiativeInput.classList.remove('hidden');
+                singleInitiativeInput.classList.toggle('hidden', isAutoInitiative);
                 singleHPInput.value = defaultHP;
                 individualInputs.classList.add('hidden');
                 individualInputs.innerHTML = '';
@@ -586,6 +1008,10 @@
         function addMonsters() {
             const name = document.getElementById('monsterName').value.trim();
             const count = parseInt(document.getElementById('monsterCount').value) || 1;
+            const isAutoInitiative = autoInitiativeCheckbox.checked;
+            const isAdvanced = modeToggle.classList.contains('advanced');
+            const entityType = isAdvanced ? document.getElementById('entityType').value : 'monster';
+            const borderColor = isAdvanced ? document.getElementById('borderColor').value : '#000000';
 
             if (!name) {
                 alert('Please enter a valid monster name.');
@@ -594,9 +1020,13 @@
 
             let hpValues = [];
             let initiativeValues = [];
+            const monsterDetails = monsterData[name];
+
             if (count === 1) {
-                const maxHP = parseInt(document.getElementById('monsterHP').value) || calculateRandomHP(monsterData[name]);
-                const initiative = parseInt(document.getElementById('monsterInitiative').value) || 0;
+                const maxHP = parseInt(document.getElementById('monsterHP').value) || calculateRandomHP(monsterDetails);
+                const initiative = isAutoInitiative 
+                    ? rollInitiative(monsterDetails)
+                    : parseInt(document.getElementById('monsterInitiative').value) || 0;
                 if (maxHP <= 0) {
                     alert('Please enter a valid HP value.');
                     return;
@@ -607,7 +1037,9 @@
                 const hpInputs = document.querySelectorAll('.individual-hp');
                 const initiativeInputs = document.querySelectorAll('.individual-initiative');
                 hpValues = Array.from(hpInputs).map(input => parseInt(input.value) || 1);
-                initiativeValues = Array.from(initiativeInputs).map(input => parseInt(input.value) || 0);
+                initiativeValues = isAutoInitiative
+                    ? Array(count).fill().map(() => rollInitiative(monsterDetails))
+                    : Array.from(initiativeInputs).map(input => parseInt(input.value) || 0);
                 if (hpValues.some(hp => hp <= 0)) {
                     alert('Please enter valid HP values for all monsters.');
                     return;
@@ -620,7 +1052,11 @@
                     name: `${name} ${count > 1 ? i + 1 : ''}`,
                     maxHP: hpValues[i],
                     currentHP: hpValues[i],
-                    initiative: initiativeValues[i]
+                    initiative: initiativeValues[i],
+                    ac: monsterDetails?.armor_class?.[0]?.value || 10,
+                    entityType: entityType,
+                    notes: '',
+                    borderColor: borderColor !== '#000000' ? borderColor : null
                 };
                 monsters.push(monster);
             }
@@ -628,10 +1064,12 @@
             document.getElementById('monsterName').value = '';
             document.getElementById('monsterHP').value = '';
             document.getElementById('monsterInitiative').value = '';
-            document.getElementById('monsterCount').value = '1';
+            document.getElementById('monsterCount').value = '';
+            document.getElementById('entityType').value = 'monster';
+            document.getElementById('borderColor').value = '#000000';
             document.getElementById('individualInputs').innerHTML = '';
             document.querySelector('[data-single-hp]').classList.remove('hidden');
-            document.querySelector('[data-single-initiative]').classList.remove('hidden');
+            document.querySelector('[data-single-initiative]').classList.toggle('hidden', isAutoInitiative);
             document.getElementById('individualInputs').classList.add('hidden');
             document.getElementById('monsterSuggestions').classList.add('hidden');
             renderMonsters();
@@ -651,10 +1089,45 @@
                 const list = document.getElementById('monsterList');
                 const card = list.querySelector(`[data-monster-id="${id}"]`);
                 const hpDisplay = card.querySelector('.hp-display');
+
                 hpDisplay.innerHTML = `
-                    <input type="number" id="editHP-${id}" value="${monster.currentHP}" min="0" max="${monster.maxHP}" class="border p-1 rounded w-16">
-                    <button onclick="saveHP(${id})" class="bg-blue-500 text-white p-1 rounded hover:bg-blue-600 ml-2">Save</button>
+                    <input 
+                        type="number" 
+                        id="editHP-${id}" 
+                        value="${monster.currentHP}" 
+                        min="0" max="${monster.maxHP}" 
+                        class="border p-1 rounded w-16"
+                    >
                 `;
+
+                const input = document.getElementById(`editHP-${id}`);
+
+                // Fix cursor position on focus
+                input.addEventListener('focus', () => {
+                    // Some devices/browsers need a slight delay for the fix to apply
+                    setTimeout(() => {
+                        // Try setSelectionRange (not always supported on type=number)
+                        try {
+                            input.setSelectionRange(input.value.length, input.value.length);
+                        } catch {
+                            // fallback: clear and reset value to force cursor at end
+                            const val = input.value;
+                            input.value = '';
+                            input.value = val;
+                        }
+                    }, 0);
+                });
+
+                // Focus immediately so user can edit right away
+                input.focus();
+
+                // Save on blur or Enter key
+                input.addEventListener('blur', () => saveHP(id));
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        saveHP(id);
+                    }
+                });
             }
         }
 
@@ -662,9 +1135,131 @@
             const monster = monsters.find(m => m.id === id);
             if (monster) {
                 const input = document.getElementById(`editHP-${id}`);
-                const newHP = parseInt(input.value) || 0;
-                monster.currentHP = Math.max(0, Math.min(monster.maxHP, newHP));
-                renderMonsters();
+                if (input) {
+                    const newHP = parseInt(input.value) || 0;
+                    monster.currentHP = Math.max(0, Math.min(monster.maxHP, newHP));
+                    renderMonsters();
+                }
+            }
+        }
+
+        function editInitiative(id) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const list = document.getElementById('monsterList');
+                const card = list.querySelector(`[data-monster-id="${id}"]`);
+                const initiativeDisplay = card.querySelector('.initiative-display');
+
+                initiativeDisplay.innerHTML = `
+                    <input 
+                        type="number" 
+                        id="editInitiative-${id}" 
+                        value="${monster.initiative}" 
+                        class="border p-1 rounded w-16"
+                    >
+                `;
+
+                const input = document.getElementById(`editInitiative-${id}`);
+
+                // Fix cursor position on focus
+                input.addEventListener('focus', () => {
+                    setTimeout(() => {
+                        try {
+                            input.setSelectionRange(input.value.length, input.value.length);
+                        } catch {
+                            const val = input.value;
+                            input.value = '';
+                            input.value = val;
+                        }
+                    }, 0);
+                });
+
+                input.focus();
+
+                input.addEventListener('blur', () => saveInitiative(id));
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        saveInitiative(id);
+                    }
+                });
+            }
+        }
+
+        function saveInitiative(id) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const input = document.getElementById(`editInitiative-${id}`);
+                if (input) {
+                    const newInitiative = parseInt(input.value) || 0;
+                    monster.initiative = newInitiative;
+                    renderMonsters();
+                }
+            }
+        }
+
+        function editAC(id) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const list = document.getElementById('monsterList');
+                const card = list.querySelector(`[data-monster-id="${id}"]`);
+                const acDisplay = card.querySelector('.ac-display');
+
+                acDisplay.innerHTML = `
+                    <input 
+                        type="number" 
+                        id="editAC-${id}" 
+                        value="${monster.ac}" 
+                        min="1" 
+                        class="border p-1 rounded w-16"
+                    >
+                `;
+
+                const input = document.getElementById(`editAC-${id}`);
+
+                // Fix cursor position on focus
+                input.addEventListener('focus', () => {
+                    setTimeout(() => {
+                        try {
+                            input.setSelectionRange(input.value.length, input.value.length);
+                        } catch {
+                            const val = input.value;
+                            input.value = '';
+                            input.value = val;
+                        }
+                    }, 0);
+                });
+
+                input.focus();
+
+                input.addEventListener('blur', () => saveAC(id));
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        saveAC(id);
+                    }
+                });
+            }
+        }
+
+        function saveAC(id) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const input = document.getElementById(`editAC-${id}`);
+                if (input) {
+                    const newAC = parseInt(input.value) || 10;
+                    monster.ac = Math.max(1, newAC);
+                    renderMonsters();
+                }
+            }
+        }
+
+        function saveNotes(id) {
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const textarea = document.getElementById(`notes-${id}`);
+                if (textarea) {
+                    monster.notes = textarea.value;
+                    renderMonsters();
+                }
             }
         }
 
@@ -685,7 +1280,14 @@
         function renderMonsters() {
             const list = document.getElementById('monsterList');
             list.innerHTML = '';
-            monsters.sort((a, b) => b.initiative - a.initiative);
+            const isAdvanced = modeToggle.classList.contains('advanced');
+            monsters.sort((a, b) => {
+                const aIsDead = a.currentHP === 0;
+                const bIsDead = b.currentHP === 0;
+                if (aIsDead && !bIsDead) return 1;
+                if (!aIsDead && bIsDead) return -1;
+                return b.initiative - a.initiative;
+            });
 
             monsters.forEach(monster => {
                 const hpRatio = monster.currentHP / monster.maxHP;
@@ -704,26 +1306,42 @@
                 }[status];
 
                 const isDead = monster.currentHP === 0;
-                const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''}`;
+                const borderClass = isAdvanced && !monster.borderColor ? (
+                    monster.entityType === 'player' ? 'player-border' : 
+                    monster.entityType === 'npc' ? 'npc-border' : ''
+                ) : (monster.borderColor ? 'custom-border' : '');
+                const borderStyle = monster.borderColor ? `style="--custom-border-color: ${monster.borderColor}"` : '';
+                const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''} ${borderClass}`;
 
                 list.innerHTML += `
-                    <div class="${cardClasses}" data-monster-id="${monster.id}">
+                    <div class="${cardClasses}" data-monster-id="${monster.id}" ${borderStyle}>
                         <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold">${monster.name} (Init: ${monster.initiative})</h3>
-                            <button onclick="removeMonster(${monster.id})" class="text-red-500 hover:text-red-700">Remove</button>
+                            <h3 class="text-lg font-semibold">${monster.name} <span class="ac-display" onclick="editAC(${monster.id})">AC: ${monster.ac}</span> <span class="initiative-display" onclick="editInitiative(${monster.id})">Init: ${monster.initiative}</span></h3>
+                            <button onclick="removeMonster(${monster.id})" class="remove-button">
+                                <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                </svg>
+                            </button>
                         </div>
                         <div class="flex items-center gap-4">
                             <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
-                            <span class="hp-display">${monster.currentHP}/${monster.maxHP} HP</span>
+                            <span class="hp-display" onclick="editHP(${monster.id})">${monster.currentHP}/${monster.maxHP} HP</span>
                             <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
-                            <button onclick="editHP(${monster.id})" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Edit HP</button>
                         </div>
                         <div class="health-bar">${segments}</div>
-                        <span class="${statusColor} font-medium">Status: ${status}</span>
+                        <div class="flex flex-col sm:flex-row gap-4 items-start">
+                            <span class="${statusColor} font-medium">Status: ${status}</span>
+                            <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
+                                <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
+                            </div>
+                        </div>
                     </div>
                 `;
             });
         }
     </script>
+    <div class="ver text-center mt-4">
+        v1.1 – Now with new stuff! Check the changelog for all new features.
+    </div>
 </body>
 </html>
