@@ -634,6 +634,27 @@
             padding: 2px 4px !important;
             font-size: 0.75rem !important;
         }
+
+/* Monster card header adjustments for mobile */
+.monster-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+@media (min-width: 640px) {
+    .monster-header {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.monster-header .ac-initiative {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -1277,68 +1298,74 @@
             return 'Healthy';
         }
 
-        function renderMonsters() {
-            const list = document.getElementById('monsterList');
-            list.innerHTML = '';
-            const isAdvanced = modeToggle.classList.contains('advanced');
-            monsters.sort((a, b) => {
-                const aIsDead = a.currentHP === 0;
-                const bIsDead = b.currentHP === 0;
-                if (aIsDead && !bIsDead) return 1;
-                if (!aIsDead && bIsDead) return -1;
-                return b.initiative - a.initiative;
-            });
+function renderMonsters() {
+    const list = document.getElementById('monsterList');
+    list.innerHTML = '';
+    const isAdvanced = modeToggle.classList.contains('advanced');
+    monsters.sort((a, b) => {
+        const aIsDead = a.currentHP === 0;
+        const bIsDead = b.currentHP === 0;
+        if (aIsDead && !bIsDead) return 1;
+        if (!aIsDead && bIsDead) return -1;
+        return b.initiative - a.initiative;
+    });
 
-            monsters.forEach(monster => {
-                const hpRatio = monster.currentHP / monster.maxHP;
-                const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
-                const segments = Array(monster.maxHP).fill().map((_, i) => `
-                    <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
-                `).join('');
+    monsters.forEach(monster => {
+        const hpRatio = monster.currentHP / monster.maxHP;
+        const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
+        const segments = Array(monster.maxHP).fill().map((_, i) => `
+            <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
+        `).join('');
 
-                const status = getStatus(monster);
-                const statusColor = {
-                    'Healthy': 'text-green-600',
-                    'Injured': 'text-yellow-600',
-                    'Bloodied': 'text-orange-600',
-                    'Critical': 'text-red-600',
-                    'Dead': 'text-gray-600'
-                }[status];
+        const status = getStatus(monster);
+        const statusColor = {
+            'Healthy': 'text-green-600',
+            'Injured': 'text-yellow-600',
+            'Bloodied': 'text-orange-600',
+            'Critical': 'text-red-600',
+            'Dead': 'text-gray-600'
+        }[status];
 
-                const isDead = monster.currentHP === 0;
-                const borderClass = isAdvanced && !monster.borderColor ? (
-                    monster.entityType === 'player' ? 'player-border' : 
-                    monster.entityType === 'npc' ? 'npc-border' : ''
-                ) : (monster.borderColor ? 'custom-border' : '');
-                const borderStyle = monster.borderColor ? `style="--custom-border-color: ${monster.borderColor}"` : '';
-                const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''} ${borderClass}`;
+        const isDead = monster.currentHP === 0;
+        const borderClass = isAdvanced && !monster.borderColor ? (
+            monster.entityType === 'player' ? 'player-border' : 
+            monster.entityType === 'npc' ? 'npc-border' : ''
+        ) : (monster.borderColor ? 'custom-border' : '');
+        const borderStyle = monster.borderColor ? `style="--custom-border-color: ${monster.borderColor}"` : '';
+        const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''} ${borderClass}`;
 
-                list.innerHTML += `
-                    <div class="${cardClasses}" data-monster-id="${monster.id}" ${borderStyle}>
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold">${monster.name} <span class="ac-display" onclick="editAC(${monster.id})">AC: ${monster.ac}</span> <span class="initiative-display" onclick="editInitiative(${monster.id})">Init: ${monster.initiative}</span></h3>
-                            <button onclick="removeMonster(${monster.id})" class="remove-button">
-                                <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
-                            <span class="hp-display" onclick="editHP(${monster.id})">${monster.currentHP}/${monster.maxHP} HP</span>
-                            <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
-                        </div>
-                        <div class="health-bar">${segments}</div>
-                        <div class="flex flex-col sm:flex-row gap-4 items-start">
-                            <span class="${statusColor} font-medium">Status: ${status}</span>
-                            <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
-                                <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
-                            </div>
+        list.innerHTML += `
+            <div class="${cardClasses}" data-monster-id="${monster.id}" ${borderStyle}>
+                <div class="flex justify-between items-start">
+                    <div class="monster-header">
+                        <h3 class="text-lg font-semibold">${monster.name}</h3>
+                        <div class="ac-initiative">
+                            <span class="ac-display" onclick="editAC(${monster.id})">AC: ${monster.ac}</span>
+                            <span class="initiative-display" onclick="editInitiative(${monster.id})">Init: ${monster.initiative}</span>
                         </div>
                     </div>
-                `;
-            });
-        }
+                    <button onclick="removeMonster(${monster.id})" class="remove-button">
+                        <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
+                    <span class="hp-display" onclick="editHP(${monster.id})">${monster.currentHP}/${monster.maxHP} HP</span>
+                    <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
+                </div>
+                <div class="health-bar">${segments}</div>
+                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                    <span class="${statusColor} font-medium">Status: ${status}</span>
+                    <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
+                        <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
     </script>
     <div class="ver text-center mt-4">
         v1.1 – Now with new stuff! Check the changelog for all new features.
