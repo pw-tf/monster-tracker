@@ -48,13 +48,16 @@
         }
 
         body.dark .ac-display,
-        body.dark .initiative-display {
+        body.dark .initiative-display,
+        body.dark .hp-display {
             background-color: #4b5563;
             color: #f9fafb;
+            border-color: #6b7280;
         }
 
         body.dark .ac-display:hover,
-        body.dark .initiative-display:hover {
+        body.dark .initiative-display:hover,
+        body.dark .hp-display:hover {
             background-color: #6b7280;
         }
 
@@ -163,7 +166,7 @@
             fill: gray;
         }
 
-        #darkModeInput:checked + .slider .sun-moon .moon-dot {
+        #darkModeInput:checked + .slider .moon-dot {
             opacity: 1;
         }
 
@@ -448,6 +451,32 @@
 
         .hp-display {
             cursor: pointer;
+            background-color: #e5e7eb;
+            color: #1f2937;
+            padding: 2px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .hp-display:hover {
+            background-color: #d1d5db;
+        }
+
+        .hp-display input {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 1px 4px;
+            width: 64px;
+        }
+
+        body.dark .hp-display input {
+            background-color: #4b5563;
+            color: #f9fafb;
+            border-color: #6b7280;
         }
 
         .initiative-display,
@@ -463,6 +492,19 @@
         .initiative-display:hover,
         .ac-display:hover {
             background-color: #d1d5db;
+        }
+
+        .monster-name {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .monster-name:hover {
+            color: #3b82f6;
+        }
+
+        body.dark .monster-name:hover {
+            color: #60a5fa;
         }
 
         .remove-button {
@@ -484,26 +526,24 @@
             text-align: center;
             font-size: 70%;
         }
-        
+
         #changelogBox {
             opacity: 100% !important;
         }
 
         /* Border styles for Player and NPC */
         .player-border {
-            border: 2px solid #3b82f6; /* Blue border for players */
+            border: 2px solid #3b82f6;
         }
 
         .npc-border {
-            border: 2px solid #a16207; /* Light brown border for NPCs */
+            border: 2px solid #a16207;
         }
 
-        /* Custom border color override */
         .custom-border {
             border: 2px solid var(--custom-border-color, transparent) !important;
         }
 
-        /* Notes textarea styles */
         .notes-textarea {
             resize: vertical;
             min-height: 40px;
@@ -518,7 +558,6 @@
             border-color: #4b5563;
         }
 
-        /* Settings panel styles */
         #settingsPanel {
             position: absolute;
             top: 60px;
@@ -534,6 +573,10 @@
         body.dark #settingsPanel {
             background: #374151;
             border-color: #4b5563;
+        }
+
+        .details-popup .details-content .dice {
+            text-decoration: underline;
         }
 
         .settings-button {
@@ -554,9 +597,8 @@
             height: 24px;
         }
 
-        /* Compact mode styles */
         body.compact .container {
-            max-width: 700px; /* reduce overall container width */
+            max-width: 700px;
             padding: 4px !important;
         }
 
@@ -619,12 +661,13 @@
         body.compact .remove-button svg,
         body.compact .initiative-display,
         body.compact .ac-display,
-        body.compact button {
+        body.compact .hp-display {
             scale: 0.9;
         }
 
         body.compact .initiative-display,
-        body.compact .ac-display {
+        body.compact .ac-display,
+        body.compact .hp-display {
             padding: 1px 4px !important;
             font-size: 0.75rem !important;
         }
@@ -635,26 +678,166 @@
             font-size: 0.75rem !important;
         }
 
-/* Monster card header adjustments for mobile */
-.monster-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-}
+        .monster-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            position: relative;
+        }
 
-@media (min-width: 640px) {
-    .monster-header {
-        flex-direction: row;
-        align-items: center;
-    }
-}
+        @media (min-width: 640px) {
+            .monster-header {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
 
-.monster-header .ac-initiative {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-}
+        .monster-header .ac-initiative {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+        }
+
+        /* HP Popup styles */
+        .hp-popup {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            width: 240px;
+        }
+
+        body.dark .hp-popup {
+            background-color: #374151;
+            color: #f9fafb;
+        }
+
+        .hp-popup .hp-input {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 2px 4px;
+            width: 60px;
+            text-align: center;
+            margin: 4px auto;
+            display: block;
+            font-size: 0.75rem;
+        }
+
+        body.dark .hp-popup .hp-input {
+            background-color: #4b5563;
+            color: #f9fafb;
+            border-color: #6b7280;
+        }
+
+        .hp-popup .hp-buttons {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .hp-popup .hp-buttons button {
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .hp-popup .hp-buttons .decrement {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .hp-popup .hp-buttons .decrement:hover {
+            background-color: #b91c1c;
+        }
+
+        .hp-popup .hp-buttons .increment {
+            background-color: #22c55e;
+            color: white;
+        }
+
+        .hp-popup .hp-buttons .increment:hover {
+            background-color: #16a34a;
+        }
+
+        .hp-popup .hp-buttons .set {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .hp-popup .hp-buttons .set:hover {
+            background-color: #2563eb;
+        }
+
+        /* Monster Details Popup styles */
+        .details-popup {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        body.dark .details-popup {
+            background-color: #374151;
+            color: #f9fafb;
+        }
+
+        .details-popup .details-content {
+            font-size: 0.75rem;
+            line-height: 1.25rem;
+        }
+
+        .details-popup .details-content h4 {
+            font-weight: bold;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .details-popup .details-content p {
+            margin-bottom: 4px;
+        }
+
+        .details-popup .details-content ul {
+            list-style-type: disc;
+            margin-left: 16px;
+            margin-bottom: 4px;
+        }
+
+        .details-popup .details-content li {
+            margin-bottom: 2px;
+        }
+
+        .details-icon {
+            width: 16px;
+            height: 16px;
+            margin-left: 4px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+        .monster-name-container {
+            display: inline-flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -743,35 +926,43 @@
                     </div>
                     <button id="toggleChangelog" class="text-blue-600 hover:underline text-left">View Changelog</button>
                     <div id="changelogBox" class="text-sm bg-white border border-gray-300 rounded p-3 shadow hidden dark:bg-gray-700 dark:border-gray-500">
+<p><strong>v1.2 Changes:</strong></p>
+<ol>
+<li><span style="text-decoration: underline;">Major Changes:</span>
+<ol style="list-style-type: lower-alpha;">
+<li>Added HP modifier popup when clicking on monster's HP.</li>
+<li>Added monster details (modifiers, saving throws, immunities, etc) when clicking on the monster name.</li>
+</ol>
+</li>
+</ol>
 <p><strong>v1.1 Changes:</strong></p>
 <ol>
-    <li><span style="text-decoration: underline;">Major Changes</span><strong>:</strong><br />
-        <ol style="list-style-type: lower-alpha;">
-            <li>Introduced Simple/Advanced toggle:
-                <ol style="list-style-type: lower-roman;">
-                    <li>Enables/disables visibility of "Type" (Monster/Player/NPC) with customizable border color options for monster blocks.</li>
-                    <li>Custom border colors override default Player (blue) and NPC (brown) highlights in Advanced mode.</li>
-                    <li>Toggles visibility of a notes section for each monster.</li>
-                </ol>
-            </li>
-            <li>Added Full/Compact toggle to adjust display size for improved desktop viewing.</li>
-            <li>Enabled editing of AC, Initiative, and Health after a monster is added.</li>
-        </ol>
-    </li>
-    <li><span style="text-decoration: underline;">Minor Changes</span>:
-        <ol style="list-style-type: lower-alpha;">
-            <li>Added a cogwheel icon to toggle visibility of settings.</li>
-            <li>Implemented general performance improvements.</li>
-            <li>Updated changelog to reflect all v1.1 changes.</li>
-        </ol>
-    </li>
+<li><span style="text-decoration: underline;">Major Changes</span><strong>:</strong><br />
+<ol style="list-style-type: lower-alpha;">
+<li>Introduced Simple/Advanced toggle:
+<ol style="list-style-type: lower-roman;">
+<li>Enables/disables visibility of "Type" (Monster/Player/NPC) with customizable border color options for monster blocks.</li>
+<li>Custom border colors override default Player (blue) and NPC (brown) highlights in Advanced mode.</li>
+<li>Toggles visibility of a notes section for each monster.</li>
+</ol>
+</li>
+<li>Added Full/Compact toggle to adjust display size for improved desktop viewing.</li>
+<li>Enabled editing of AC, Initiative, and Health after a monster is added.</li>
+</ol>
+</li>
+<li><span style="text-decoration: underline;">Minor Changes</span>:
+<ol style="list-style-type: lower-alpha;">
+<li>Added a cogwheel icon to toggle visibility of settings.</li>
+<li>Implemented general performance improvements.</li>
+<li>Updated changelog to reflect all v1.1 changes.</li>
+</ol>
+</li>
 </ol>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Add Monster Form -->
         <div class="bg-white p-4 rounded-lg shadow mb-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-semibold">Add Monsters</h2>
@@ -811,27 +1002,24 @@
                     <input type="number" id="monsterInitiative" placeholder="INIT"
                         class="border p-2 rounded w-24 hidden" data-single-initiative>
                 </div>
-                
-                                    <label id="borderColorContainer" class="flex items-center advanced-field">
-                        <span class="mr-2">Border Color:</span>
-                        <input type="color" id="borderColor" value="#000000" class="border p-1 rounded">
-                    </label>
-                
+                <label id="borderColorContainer" class="flex items-center advanced-field">
+                    <span class="mr-2">Border Color:</span>
+                    <input type="color" id="borderColor" value="#000000" class="border p-1 rounded">
+                </label>
                 <div id="individualInputs" class="flex flex-col gap-2 hidden"></div>
                 <button onclick="addMonsters()"
                     class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 self-end">Add</button>
             </div>
         </div>
 
-        <!-- Monster List -->
         <div id="monsterList" class="space-y-4"></div>
     </div>
 
     <script>
         let monsters = [];
         let monsterData = [];
+        let currentMonsterId = null;
 
-        // Dark Mode Setup
         const darkModeToggle = document.getElementById('darkModeInput');
         const prefersDark = localStorage.getItem('darkMode') === 'true';
 
@@ -846,7 +1034,6 @@
             localStorage.setItem('darkMode', isDark);
         });
 
-        // Simple/Advanced Mode Setup
         const modeToggle = document.getElementById('modeToggle');
         const prefersAdvanced = localStorage.getItem('advancedMode') === 'true';
 
@@ -865,7 +1052,6 @@
             renderMonsters();
         });
 
-        // Full/Compact Mode Setup
         const compactToggle = document.getElementById('compactToggle');
         const prefersCompact = localStorage.getItem('compactMode') === 'true';
 
@@ -881,21 +1067,26 @@
             localStorage.setItem('compactMode', isCompact);
         });
 
-        // Settings Panel Toggle
         const settingsButton = document.getElementById('settingsButton');
         const settingsPanel = document.getElementById('settingsPanel');
         settingsButton.addEventListener('click', () => {
             settingsPanel.classList.toggle('hidden');
         });
 
-        // Close settings panel when clicking outside
         document.addEventListener('click', (event) => {
             if (!settingsPanel.contains(event.target) && !settingsButton.contains(event.target)) {
                 settingsPanel.classList.add('hidden');
             }
+            const openHPPopup = document.querySelector('.hp-popup[style*="block"]');
+            if (openHPPopup && !openHPPopup.contains(event.target) && !event.target.closest('.hp-display')) {
+                closeHPPopup();
+            }
+            const openDetailsPopup = document.querySelector('.details-popup[style*="block"]');
+            if (openDetailsPopup && !openDetailsPopup.contains(event.target) && !event.target.closest('.monster-name') && !event.target.closest('.details-icon')) {
+                closeDetailsPopup();
+            }
         });
 
-        // Changelog Toggle
         const toggleButton = document.getElementById('toggleChangelog');
         const changelogBox = document.getElementById('changelogBox');
 
@@ -914,17 +1105,15 @@
             notesFields.forEach(field => field.classList.toggle('hidden', !isAdvanced));
         }
 
-        // Auto Initiative Toggle
         const autoInitiativeCheckbox = document.getElementById('autoInitiative');
         const singleInitiativeInput = document.querySelector('[data-single-initiative]');
-        
+
         autoInitiativeCheckbox.addEventListener('change', () => {
             const isAuto = autoInitiativeCheckbox.checked;
             singleInitiativeInput.classList.toggle('hidden', isAuto);
             updateIndividualInputs();
         });
 
-        // Fetch monster list from D&D 5e API
         async function fetchMonsterSuggestions() {
             const query = document.getElementById('monsterName').value.trim();
             if (query.length < 2) {
@@ -949,8 +1138,8 @@
                         suggestionsDiv.classList.add('hidden');
                         const monsterResponse = await axios.get(`https://www.dnd5eapi.co${monster.url}`);
                         const monsterDetails = monsterResponse.data;
-                        document.getElementById('monsterHP').value = monsterDetails.hit_points;
-                        monsterData[monster.name] = monsterDetails;
+                        document.getElementById('monsterHP').value = monsterDetails.hit_points || '';
+                        monsterData[monster.name.toLowerCase()] = { details: monsterDetails, url: monster.url };
                     };
                     suggestionsDiv.appendChild(div);
                 }
@@ -987,7 +1176,7 @@
         }
 
         function rollInitiative(monsterDetails) {
-            const dexMod = monsterDetails && monsterDetails.dexterity 
+            const dexMod = monsterDetails && monsterDetails.dexterity
                 ? Math.floor((monsterDetails.dexterity - 10) / 2)
                 : 0;
             return Math.floor(Math.random() * 20) + 1 + dexMod;
@@ -999,7 +1188,7 @@
             const singleInitiativeInput = document.querySelector('[data-single-initiative]');
             const individualInputs = document.getElementById('individualInputs');
             const name = document.getElementById('monsterName').value.trim() || 'Monster';
-            const monsterDetails = monsterData[name];
+            const monsterDetails = monsterData[name.toLowerCase()]?.details;
             const defaultHP = calculateRandomHP(monsterDetails);
             const isAutoInitiative = autoInitiativeCheckbox.checked;
 
@@ -1041,11 +1230,11 @@
 
             let hpValues = [];
             let initiativeValues = [];
-            const monsterDetails = monsterData[name];
+            const monsterDetails = monsterData[name.toLowerCase()]?.details;
 
             if (count === 1) {
                 const maxHP = parseInt(document.getElementById('monsterHP').value) || calculateRandomHP(monsterDetails);
-                const initiative = isAutoInitiative 
+                const initiative = isAutoInitiative
                     ? rollInitiative(monsterDetails)
                     : parseInt(document.getElementById('monsterInitiative').value) || 0;
                 if (maxHP <= 0) {
@@ -1077,7 +1266,8 @@
                     ac: monsterDetails?.armor_class?.[0]?.value || 10,
                     entityType: entityType,
                     notes: '',
-                    borderColor: borderColor !== '#000000' ? borderColor : null
+                    borderColor: borderColor !== '#000000' ? borderColor : null,
+                    apiUrl: monsterData[name.toLowerCase()]?.url
                 };
                 monsters.push(monster);
             }
@@ -1104,63 +1294,184 @@
             }
         }
 
-        function editHP(id) {
+        function adjustPopupHP(id, amount) {
             const monster = monsters.find(m => m.id === id);
             if (monster) {
-                const list = document.getElementById('monsterList');
-                const card = list.querySelector(`[data-monster-id="${id}"]`);
-                const hpDisplay = card.querySelector('.hp-display');
-
-                hpDisplay.innerHTML = `
-                    <input 
-                        type="number" 
-                        id="editHP-${id}" 
-                        value="${monster.currentHP}" 
-                        min="0" max="${monster.maxHP}" 
-                        class="border p-1 rounded w-16"
-                    >
-                `;
-
-                const input = document.getElementById(`editHP-${id}`);
-
-                // Fix cursor position on focus
-                input.addEventListener('focus', () => {
-                    // Some devices/browsers need a slight delay for the fix to apply
-                    setTimeout(() => {
-                        // Try setSelectionRange (not always supported on type=number)
-                        try {
-                            input.setSelectionRange(input.value.length, input.value.length);
-                        } catch {
-                            // fallback: clear and reset value to force cursor at end
-                            const val = input.value;
-                            input.value = '';
-                            input.value = val;
-                        }
-                    }, 0);
-                });
-
-                // Focus immediately so user can edit right away
-                input.focus();
-
-                // Save on blur or Enter key
-                input.addEventListener('blur', () => saveHP(id));
-                input.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        saveHP(id);
-                    }
-                });
+                monster.currentHP = Math.max(0, Math.min(monster.maxHP, monster.currentHP + amount));
+                renderMonsters();
             }
         }
 
-        function saveHP(id) {
+        function setPopupHP(id) {
             const monster = monsters.find(m => m.id === id);
             if (monster) {
-                const input = document.getElementById(`editHP-${id}`);
-                if (input) {
-                    const newHP = parseInt(input.value) || 0;
-                    monster.currentHP = Math.max(0, Math.min(monster.maxHP, newHP));
-                    renderMonsters();
+                const input = document.getElementById(`hpInput-${id}`);
+                const newHP = parseInt(input.value) || 0;
+                monster.currentHP = Math.max(0, Math.min(monster.maxHP, newHP));
+                closeHPPopup();
+                renderMonsters();
+            }
+        }
+
+        function openHPPopup(id) {
+            closeHPPopup();
+            closeDetailsPopup();
+            currentMonsterId = id;
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const hpDisplay = document.querySelector(`[data-monster-id="${id}"] .hp-display`);
+                hpDisplay.innerHTML = `
+                    ${monster.currentHP}/${monster.maxHP} HP
+                    <div id="hpPopup-${id}" class="hp-popup">
+                        <input type="number" id="hpInput-${id}" class="hp-input" min="0" placeholder="HP">
+                        <div class="hp-buttons">
+                            <button class="decrement" onclick="adjustPopupHP(${id}, -parseInt(document.getElementById('hpInput-${id}').value) || 0)">-X</button>
+                            <button class="decrement" onclick="adjustPopupHP(${id}, -10)">-10</button>
+                            <button class="decrement" onclick="adjustPopupHP(${id}, -5)">-5</button>
+                            <button class="set" onclick="setPopupHP(${id})">SET</button>
+                            <button class="increment" onclick="adjustPopupHP(${id}, 5)">+5</button>
+                            <button class="increment" onclick="adjustPopupHP(${id}, 10)">+10</button>
+                            <button class="increment" onclick="adjustPopupHP(${id}, parseInt(document.getElementById('hpInput-${id}').value) || 0)">+X</button>
+                        </div>
+                    </div>
+                `;
+                const popup = document.getElementById(`hpPopup-${id}`);
+                popup.style.display = 'block';
+                document.getElementById(`hpInput-${id}`).focus();
+            }
+        }
+
+        function closeHPPopup() {
+            const openPopup = document.querySelector('.hp-popup[style*="block"]');
+            if (openPopup) {
+                const id = openPopup.id.replace('hpPopup-', '');
+                const monster = monsters.find(m => m.id === parseInt(id));
+                if (monster) {
+                    const hpDisplay = document.querySelector(`[data-monster-id="${id}"] .hp-display`);
+                    hpDisplay.innerHTML = `${monster.currentHP}/${monster.maxHP} HP`;
                 }
+            }
+            currentMonsterId = null;
+        }
+
+        async function openDetailsPopup(id) {
+            closeHPPopup();
+            closeDetailsPopup();
+            const monster = monsters.find(m => m.id === id);
+            if (monster) {
+                const name = monster.name.replace(/\s*\d+$/, '').toLowerCase();
+                let monsterDetails = monsterData[name]?.details;
+                if (!monsterDetails && monster.apiUrl) {
+                    monsterDetails = await fetchMonsterDetails(monster.apiUrl);
+                }
+                if (!monsterDetails) {
+                    console.error(`No details found for monster: ${name}`);
+                    const monsterHeader = document.querySelector(`[data-monster-id="${id}"] .monster-header`);
+                    monsterHeader.innerHTML += `
+                        <div id="detailsPopup-${id}" class="details-popup">
+                            <div class="details-content">
+                                <p>No details available.</p>
+                            </div>
+                        </div>
+                    `;
+                    const popup = document.getElementById(`detailsPopup-${id}`);
+                    popup.style.display = 'block';
+                    return;
+                }
+                const monsterHeader = document.querySelector(`[data-monster-id="${id}"] .monster-header`);
+                const detailsContent = formatMonsterDetails(monsterDetails);
+                monsterHeader.innerHTML += `
+                    <div id="detailsPopup-${id}" class="details-popup">
+                        <div class="details-content">
+                            ${detailsContent}
+                        </div>
+                    </div>
+                `;
+                const popup = document.getElementById(`detailsPopup-${id}`);
+                popup.style.display = 'block';
+            }
+        }
+
+        async function fetchMonsterDetails(url) {
+            try {
+                if (!url) return null;
+                const response = await axios.get(`https://www.dnd5eapi.co${url}`);
+                const monsterDetails = response.data;
+                if (!monsterDetails || !monsterDetails.name) {
+                    console.error(`Invalid API response for URL: ${url}`);
+                    return null;
+                }
+                const name = monsterDetails.name.toLowerCase();
+                monsterData[name] = { details: monsterDetails, url: url };
+                return monsterDetails;
+            } catch (error) {
+                console.error('Error fetching monster details:', error);
+                return null;
+            }
+        }
+
+        function formatMonsterDetails(details) {
+            if (!details || !details.name) {
+                return '<p>No details available.</p>';
+            }
+
+            const modifiers = [
+                { name: 'Strength', value: details.strength },
+                { name: 'Dexterity', value: details.dexterity },
+                { name: 'Constitution', value: details.constitution },
+                { name: 'Intelligence', value: details.intelligence },
+                { name: 'Wisdom', value: details.wisdom },
+                { name: 'Charisma', value: details.charisma }
+            ].map(stat => {
+                const mod = Math.floor((stat.value - 10) / 2);
+                return `<li>${stat.name}: ${mod >= 0 ? '+' : ''}${mod}</li>`;
+            }).join('');
+
+            const savingThrows = details.proficiencies?.filter(p => p.proficiency.name.includes('Saving Throw')).map(p => {
+                const stat = p.proficiency.name.replace('Saving Throw: ', '');
+                return `${stat}: ${p.value >= 0 ? '+' : ''}${p.value}`;
+            }).join(', ') || 'None';
+
+            const vulnerabilities = details.damage_vulnerabilities?.length > 0
+                ? details.damage_vulnerabilities.join(', ')
+                : 'None';
+
+            const immunities = details.damage_immunities?.length > 0
+                ? details.damage_immunities.join(', ')
+                : 'None';
+
+            const actions = details.actions?.map(action => {
+                let desc = action.name;
+                if (action.attack_bonus) {
+                    desc += ` (Attack Bonus: +${action.attack_bonus})`;
+                }
+                if (action.damage && action.damage.length > 0) {
+                    const damage = action.damage.map(d => `<span class="dice">${d.damage_dice}</span> ${d.damage_type.name}`).join(', ');
+                    desc += `: ${damage}`;
+                }
+                return `<li>${desc}</li>`;
+            }).join('') || 'None';
+
+            return `
+                <h4>Hit Dice</h4>
+                <p>${details.hit_dice || 'Unknown'}</p>
+                <h4>Ability Modifiers</h4>
+                <ul>${modifiers}</ul>
+                <h4>Saving Throws</h4>
+                <p>${savingThrows}</p>
+                <h4>Damage Vulnerabilities</h4>
+                <p>${vulnerabilities}</p>
+                <h4>Damage Immunities</h4>
+                <p>${immunities}</p>
+                <h4>Actions</h4>
+                <ul>${actions}</ul>
+            `;
+        }
+
+        function closeDetailsPopup() {
+            const openPopup = document.querySelector('.details-popup[style*="block"]');
+            if (openPopup) {
+                openPopup.remove();
             }
         }
 
@@ -1172,17 +1483,16 @@
                 const initiativeDisplay = card.querySelector('.initiative-display');
 
                 initiativeDisplay.innerHTML = `
-                    <input 
-                        type="number" 
-                        id="editInitiative-${id}" 
-                        value="${monster.initiative}" 
+                    <input
+                        type="number"
+                        id="editInitiative-${id}"
+                        value="${monster.initiative}"
                         class="border p-1 rounded w-16"
                     >
                 `;
 
                 const input = document.getElementById(`editInitiative-${id}`);
 
-                // Fix cursor position on focus
                 input.addEventListener('focus', () => {
                     setTimeout(() => {
                         try {
@@ -1226,18 +1536,17 @@
                 const acDisplay = card.querySelector('.ac-display');
 
                 acDisplay.innerHTML = `
-                    <input 
-                        type="number" 
-                        id="editAC-${id}" 
-                        value="${monster.ac}" 
-                        min="1" 
+                    <input
+                        type="number"
+                        id="editAC-${id}"
+                        value="${monster.ac}"
+                        min="1"
                         class="border p-1 rounded w-16"
                     >
                 `;
 
                 const input = document.getElementById(`editAC-${id}`);
 
-                // Fix cursor position on focus
                 input.addEventListener('focus', () => {
                     setTimeout(() => {
                         try {
@@ -1298,77 +1607,88 @@
             return 'Healthy';
         }
 
-function renderMonsters() {
-    const list = document.getElementById('monsterList');
-    list.innerHTML = '';
-    const isAdvanced = modeToggle.classList.contains('advanced');
-    monsters.sort((a, b) => {
-        const aIsDead = a.currentHP === 0;
-        const bIsDead = b.currentHP === 0;
-        if (aIsDead && !bIsDead) return 1;
-        if (!aIsDead && bIsDead) return -1;
-        return b.initiative - a.initiative;
-    });
+        function renderMonsters() {
+            const list = document.getElementById('monsterList');
+            list.innerHTML = '';
+            const isAdvanced = modeToggle.classList.contains('advanced');
+            monsters.sort((a, b) => {
+                const aIsDead = a.currentHP === 0;
+                const bIsDead = b.currentHP === 0;
+                if (aIsDead && !bIsDead) return 1;
+                if (!aIsDead && bIsDead) return -1;
+                return b.initiative - a.initiative;
+            });
 
-    monsters.forEach(monster => {
-        const hpRatio = monster.currentHP / monster.maxHP;
-        const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
-        const segments = Array(monster.maxHP).fill().map((_, i) => `
-            <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
-        `).join('');
+            monsters.forEach(monster => {
+                const hpRatio = monster.currentHP / monster.maxHP;
+                const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
+                const segments = Array(monster.maxHP).fill().map((_, i) => `
+                    <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
+                `).join('');
 
-        const status = getStatus(monster);
-        const statusColor = {
-            'Healthy': 'text-green-600',
-            'Injured': 'text-yellow-600',
-            'Bloodied': 'text-orange-600',
-            'Critical': 'text-red-600',
-            'Dead': 'text-gray-600'
-        }[status];
+                const status = getStatus(monster);
+                const statusColor = {
+                    'Healthy': 'text-green-600',
+                    'Injured': 'text-yellow-600',
+                    'Bloodied': 'text-orange-600',
+                    'Critical': 'text-red-600',
+                    'Dead': 'text-gray-600'
+                }[status];
 
-        const isDead = monster.currentHP === 0;
-        const borderClass = isAdvanced && !monster.borderColor ? (
-            monster.entityType === 'player' ? 'player-border' : 
-            monster.entityType === 'npc' ? 'npc-border' : ''
-        ) : (monster.borderColor ? 'custom-border' : '');
-        const borderStyle = monster.borderColor ? `style="--custom-border-color: ${monster.borderColor}"` : '';
-        const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''} ${borderClass}`;
+                const isDead = monster.currentHP === 0;
+                const borderClass = isAdvanced && !monster.borderColor ? (
+                    monster.entityType === 'player' ? 'player-border' :
+                    monster.entityType === 'npc' ? 'npc-border' : ''
+                ) : (monster.borderColor ? 'custom-border' : '');
+                const borderStyle = monster.borderColor ? `style="--custom-border-color: ${monster.borderColor}"` : '';
+                const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''} ${borderClass}`;
 
-        list.innerHTML += `
-            <div class="${cardClasses}" data-monster-id="${monster.id}" ${borderStyle}>
-                <div class="flex justify-between items-start">
-                    <div class="monster-header">
-                        <h3 class="text-lg font-semibold">${monster.name}</h3>
-                        <div class="ac-initiative">
-                            <span class="ac-display" onclick="editAC(${monster.id})">AC: ${monster.ac}</span>
-                            <span class="initiative-display" onclick="editInitiative(${monster.id})">Init: ${monster.initiative}</span>
+                list.innerHTML += `
+                    <div class="${cardClasses}" data-monster-id="${monster.id}" ${borderStyle}>
+                        <div class="flex justify-between items-start">
+                            <div class="monster-header">
+                                <div class="monster-name-container">
+                                    <h3 class="text-lg font-semibold monster-name" onclick="openDetailsPopup(${monster.id})">${monster.name}</h3>
+                                    <svg class="details-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onclick="openDetailsPopup(${monster.id})">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
+                                            <g id="Dribbble-Light-Preview" transform="translate(-60.000000, -1919.000000)">
+                                                <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                    <path d="M11,1769 L17,1769 L17,1767 L11,1767 L11,1769 Z M11,1765 L17,1765 L17,1763 L11,1763 L11,1765 Z M20,1763 L20,1761 C21.103,1761 22,1761.898 22,1763 L20,1763 Z M18,1775 C18,1776.103 17.103,1777 16,1777 L16,1773 L10,1773 L10,1763 C10,1761.898 10.897,1761 12,1761 L18,1761 L18,1775 Z M14,1777 L8,1777 C6.897,1777 6,1776.103 6,1775 L14,1775 L14,1777 Z M20,1759 L12,1759 C9.791,1759 8,1760.791 8,1763 L8,1773 L4,1773 L4,1775 C4,1777.21 5.791,1779 8,1779 L16,1779 C18.209,1779 20,1777.21 20,1775 L20,1765 L24,1765 L24,1763 C24,1760.791 22.209,1759 20,1759 L20,1759 Z" id="script-[#1601]"></path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="ac-initiative">
+                                    <span class="ac-display" onclick="editAC(${monster.id})">AC: ${monster.ac}</span>
+                                    <span class="initiative-display" onclick="editInitiative(${monster.id})">Init: ${monster.initiative}</span>
+                                </div>
+                            </div>
+                            <button onclick="removeMonster(${monster.id})" class="remove-button">
+                                <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
+                            <span class="hp-display" onclick="openHPPopup(${monster.id})">${monster.currentHP}/${monster.maxHP} HP</span>
+                            <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
+                        </div>
+                        <div class="health-bar">${segments}</div>
+                        <div class="flex flex-col sm:flex-row gap-4 items-start">
+                            <span class="${statusColor} font-medium">Status: ${status}</span>
+                            <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
+                                <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
+                            </div>
                         </div>
                     </div>
-                    <button onclick="removeMonster(${monster.id})" class="remove-button">
-                        <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
-                    <span class="hp-display" onclick="editHP(${monster.id})">${monster.currentHP}/${monster.maxHP} HP</span>
-                    <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
-                </div>
-                <div class="health-bar">${segments}</div>
-                <div class="flex flex-col sm:flex-row gap-4 items-start">
-                    <span class="${statusColor} font-medium">Status: ${status}</span>
-                    <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
-                        <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
-                    </div>
-                </div>
-            </div>
-        `;
-    });
-}
+                `;
+            });
+        }
     </script>
     <div class="ver text-center mt-4">
-        v1.1 – Now with new stuff! Check the changelog for all new features.
+        v1.2 – HP modifier and monster details!
     </div>
 </body>
 </html>
