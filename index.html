@@ -6,11 +6,21 @@
     <title>D&D 5e Monster Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <style>
+    /* fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+        
+        body {
+            font-family: "Playfair Display", serif;            
+        }
+        
         /* Dark mode overrides */
         body.dark {
             background-color: #1f2937;
             color: #f9fafb;
+
         }
 
         body.dark .bg-white {
@@ -528,7 +538,8 @@
         }
 
         #changelogBox {
-            opacity: 100% !important;
+
+            font-family: sans-serif;
         }
 
         /* Border styles for Player and NPC */
@@ -552,6 +563,7 @@
             border: 1px solid #e5e7eb;
             border-radius: 4px;
             padding: 4px;
+            font-family: "DM Sans";
         }
 
         body.dark .notes-textarea {
@@ -712,6 +724,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 50;
             width: 240px;
+            font-family: "DM Sans";
         }
 
         body.dark .hp-popup {
@@ -814,6 +827,7 @@
 
         .details-popup .details-content p {
             margin-bottom: 4px;
+            font-family: "DM Sans";
         }
 
         .details-popup .details-content ul {
@@ -824,6 +838,7 @@
 
         .details-popup .details-content li {
             margin-bottom: 2px;
+            font-family: "DM Sans";
         }
 
         .details-icon {
@@ -832,6 +847,12 @@
             margin-left: 4px;
             vertical-align: middle;
             cursor: pointer;
+            opacity: 50%;
+        }
+        
+        .details-icon:hover {
+            opacity: 100%;
+            color: #3b82f6;
         }
 
         .monster-name-container {
@@ -840,7 +861,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100">
     <div class="container mx-auto p-4">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold text-center">D&D 5e Monster Tracker</h1>
@@ -924,7 +945,7 @@
                             </div>
                         </label>
                     </div>
-                    <button id="toggleChangelog" class="text-blue-600 hover:underline text-left">View Changelog</button>
+                    <button id="toggleChangelog" class="text-blue-600 hover:underline">View Changelog</button>
                     <div id="changelogBox" class="text-sm bg-white border border-gray-300 rounded p-3 shadow hidden dark:bg-gray-700 dark:border-gray-500">
 <p><strong>v1.2 Changes:</strong></p>
 <ol>
@@ -1323,7 +1344,7 @@
                 hpDisplay.innerHTML = `
                     ${monster.currentHP}/${monster.maxHP} HP
                     <div id="hpPopup-${id}" class="hp-popup">
-                        <input type="number" id="hpInput-${id}" class="hp-input" min="0" placeholder="HP">
+                        <input type="number" id="hpInput-${id}" class="hp-input" min="0" placeholder="0">
                         <div class="hp-buttons">
                             <button class="decrement" onclick="adjustPopupHP(${id}, -parseInt(document.getElementById('hpInput-${id}').value) || 0)">-X</button>
                             <button class="decrement" onclick="adjustPopupHP(${id}, -10)">-10</button>
@@ -1629,8 +1650,8 @@
                 const status = getStatus(monster);
                 const statusColor = {
                     'Healthy': 'text-green-600',
-                    'Injured': 'text-yellow-600',
-                    'Bloodied': 'text-orange-600',
+                    'Injured': 'text-yellow-300',
+                    'Bloodied': 'text-yellow-600',
                     'Critical': 'text-red-600',
                     'Dead': 'text-gray-600'
                 }[status];
@@ -1677,7 +1698,7 @@
                         </div>
                         <div class="health-bar">${segments}</div>
                         <div class="flex flex-col sm:flex-row gap-4 items-start">
-                            <span class="${statusColor} font-medium">Status: ${status}</span>
+                            <span class="${statusColor} font-medium">${status}</span>
                             <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
                                 <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
                             </div>
