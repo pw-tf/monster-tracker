@@ -11,16 +11,15 @@
     /* fonts */
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-        
+
         body {
-            font-family: "Playfair Display", serif;            
+            font-family: "Playfair Display", serif;
         }
-        
+
         /* Dark mode overrides */
         body.dark {
             background-color: #1f2937;
             color: #f9fafb;
-
         }
 
         body.dark .bg-white {
@@ -302,21 +301,10 @@
         }
 
         @keyframes cloud-move {
-            0% {
-                transform: translateX(0px);
-            }
-
-            40% {
-                transform: translateX(4px);
-            }
-
-            80% {
-                transform: translateX(-4px);
-            }
-
-            100% {
-                transform: translateX(0px);
-            }
+            0% { transform: translateX(0px); }
+            40% { transform: translateX(4px); }
+            80% { transform: translateX(-4px); }
+            100% { transform: translateX(0px); }
         }
 
         .stars {
@@ -370,21 +358,10 @@
         }
 
         @keyframes star-twinkle {
-            0% {
-                transform: scale(1);
-            }
-
-            40% {
-                transform: scale(1.2);
-            }
-
-            80% {
-                transform: scale(0.8);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            40% { transform: scale(1.2); }
+            80% { transform: scale(0.8); }
+            100% { transform: scale(1); }
         }
 
         /* Simple/Advanced mode text toggle styles */
@@ -538,7 +515,6 @@
         }
 
         #changelogBox {
-
             font-family: sans-serif;
         }
 
@@ -849,7 +825,7 @@
             cursor: pointer;
             opacity: 50%;
         }
-        
+
         .details-icon:hover {
             opacity: 100%;
             color: #3b82f6;
@@ -859,9 +835,206 @@
             display: inline-flex;
             align-items: center;
         }
+
+        /* Encounter group styles */
+        .encounter-group {
+            margin-bottom: 16px;
+            background-color: #f9fafb;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        body.dark .encounter-group {
+            background-color: #2d3748;
+        }
+
+        .encounter-group h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1f2937;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        body.dark .encounter-group h2 {
+            color: #f9fafb;
+        }
+
+        .encounter-group.ungrouped h2 {
+            display: none;
+        }
+
+        .encounter-group.collapsed .encounter-monsters {
+            display: none;
+        }
+
+        .encounter-toggle-icon {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.2s;
+        }
+
+        .encounter-group.collapsed .encounter-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .floating-add-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3b82f6;
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            z-index: 30;
+            transition: background-color 0.2s;
+        }
+
+        .floating-add-button:hover {
+            background-color: #2563eb;
+        }
+
+        body.dark .floating-add-button {
+            background-color: #60a5fa;
+        }
+
+        body.dark .floating-add-button:hover {
+            background-color: #3b82f6;
+        }
+
+        /* Update the add monster form container to be hidden by default */
+        #addMonsterFormContainer {
+            display: none; /* Hidden by default */
+        }
+
+        #addMonsterForm .add-button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Mode Selection Pop-up Styles */
+        #modeSelectionPopup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex; /* This sets display to flex when visible */
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            font-family: "DM Sans";
+        }
+
+        #modeSelectionPopup .popup-content {
+            background-color: white;
+            padding: 32px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark #modeSelectionPopup .popup-content {
+             background-color: #374151;
+             color: #f9fafb;
+        }
+
+        #modeSelectionPopup h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            font-family: "Playfair Display";
+        }
+
+        #modeSelectionPopup .mode-option {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        #modeSelectionPopup .mode-option label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-family: "Playfair Display";
+        }
+
+         #modeSelectionPopup .mode-option input[type="radio"] {
+             margin-right: 8px;
+         }
+
+        #modeSelectionPopup .mode-option p {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        body.dark #modeSelectionPopup .mode-option p {
+             color: #d1d5db;
+        }
+
+        #modeSelectionPopup .never-show {
+            margin-top: 24px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        #modeSelectionPopup button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #modeSelectionPopup button:hover {
+            background-color: #2563eb;
+        }
+
     </style>
 </head>
 <body class="bg-gray-100">
+
+    <div id="modeSelectionPopup" class="hidden">
+        <div class="popup-content">
+            <h2>Choose Your Mode</h2>
+            <div class="mode-option">
+                <label for="simpleModeRadio">
+                    <input type="radio" id="simpleModeRadio" name="startMode" value="simple" checked>
+                    Simple Mode
+                </label>
+                <p><u>Focus on the essentials:</u> Monster Name, HP, AC, and Initiative. Quick and easy tracking for combat.</p>
+            </div>
+            <div class="mode-option">
+                <label for="advancedModeRadio">
+                    <input type="radio" id="advancedModeRadio" name="startMode" value="advanced">
+                    Advanced Mode
+                </label>
+                <p><u>More in-depth features:</u> Add Players/NPCs, customize border colors, add notes, and group monsters by encounter.</p>
+               <br><p><i>Note: This setting can be changed at any time in the settings menu!</i></p>
+            </div>
+            <div class="never-show">
+                <label for="neverShowAgainCheckbox">
+                    <input type="checkbox" id="neverShowAgainCheckbox">
+                    Never show this again
+                </label>
+            </div>
+            <button id="getStartedButton">Get Started</button>
+        </div>
+    </div>
+
     <div class="container mx-auto p-4">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold text-center">D&D 5e Monster Tracker</h1>
@@ -922,24 +1095,16 @@
                                 </div>
                                 <div class="stars">
                                     <svg id="star-1" class="star" viewBox="0 0 20 20">
-                                        <path
-                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                                        ></path>
+                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
                                     </svg>
                                     <svg id="star-2" class="star" viewBox="0 0 20 20">
-                                        <path
-                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                                        ></path>
+                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
                                     </svg>
                                     <svg id="star-3" class="star" viewBox="0 0 20 20">
-                                        <path
-                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                                        ></path>
+                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
                                     </svg>
                                     <svg id="star-4" class="star" viewBox="0 0 20 20">
-                                        <path
-                                            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-                                        ></path>
+                                        <path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path>
                                     </svg>
                                 </div>
                             </div>
@@ -947,55 +1112,72 @@
                     </div>
                     <button id="toggleChangelog" class="text-blue-600 hover:underline">View Changelog</button>
                     <div id="changelogBox" class="text-sm bg-white border border-gray-300 rounded p-3 shadow hidden dark:bg-gray-700 dark:border-gray-500">
-<p><strong>v1.2 Changes:</strong></p>
-<ol>
-<li><span style="text-decoration: underline;">Major Changes:</span>
-<ol style="list-style-type: lower-alpha;">
-<li>Added HP modifier popup when clicking on monster's HP.</li>
-<li>Added monster details (modifiers, saving throws, immunities, etc) when clicking on the monster name.</li>
-</ol>
-</li>
-</ol>
-<p><strong>v1.1 Changes:</strong></p>
-<ol>
-<li><span style="text-decoration: underline;">Major Changes</span><strong>:</strong><br />
-<ol style="list-style-type: lower-alpha;">
-<li>Introduced Simple/Advanced toggle:
-<ol style="list-style-type: lower-roman;">
-<li>Enables/disables visibility of "Type" (Monster/Player/NPC) with customizable border color options for monster blocks.</li>
-<li>Custom border colors override default Player (blue) and NPC (brown) highlights in Advanced mode.</li>
-<li>Toggles visibility of a notes section for each monster.</li>
-</ol>
-</li>
-<li>Added Full/Compact toggle to adjust display size for improved desktop viewing.</li>
-<li>Enabled editing of AC, Initiative, and Health after a monster is added.</li>
-</ol>
-</li>
-<li><span style="text-decoration: underline;">Minor Changes</span>:
-<ol style="list-style-type: lower-alpha;">
-<li>Added a cogwheel icon to toggle visibility of settings.</li>
-<li>Implemented general performance improvements.</li>
-<li>Updated changelog to reflect all v1.1 changes.</li>
-</ol>
-</li>
-</ol>
+                        <p><strong>v1.3 Changes:</strong></p>
+                        <ol>
+                            <li><span style="text-decoration: underline;">Major Changes:</span>
+                                <ol style="list-style-type: lower-alpha;">
+                                    <li>Added encounter grouping feature in Advanced mode.</li>
+                                    <li>Encounter groups are still visible in both Simple and Advanced modes after switching.</li>
+                                    <li>Ungrouped monsters are displayed separately.</li>
+                                </ol>
+                            </li>
+                            <li><span style="text-decoration: underline;">Minor Changes:</span>
+                                <ol style="list-style-type: lower-alpha;">
+                                    <li>Added a "Get Started" popup which explains the difference in modes.</li>
+
+                                </ol>
+                            </li>                        
+                        </ol>
+                        <p><strong>v1.2 Changes:</strong></p>
+                        <ol>
+                            <li><span style="text-decoration: underline;">Major Changes:</span>
+                                <ol style="list-style-type: lower-alpha;">
+                                    <li>Added HP modifier popup when clicking on monster's HP.</li>
+                                    <li>Added monster details (modifiers, saving throws, immunities, etc) when clicking on the monster name.</li>
+                                </ol>
+                            </li>
+                        </ol>
+                        <p><strong>v1.1 Changes:</strong></p>
+                        <ol>
+                            <li><span style="text-decoration: underline;">Major Changes:</span>
+                                <ol style="list-style-type: lower-alpha;">
+                                    <li>Introduced Simple/Advanced toggle:
+                                        <ol style="list-style-type: lower-roman;">
+                                            <li>Enables/disables visibility of "Type" (Monster/Player/NPC) with customizable border color options for monster blocks.</li>
+                                            <li>Custom border colors override default Player (blue) and NPC (brown) highlights in Advanced mode.</li>
+                                            <li>Toggles visibility of a notes section for each monster.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Added Full/Compact toggle to adjust display size for improved desktop viewing.</li>
+                                    <li>Enabled editing of AC, Initiative, and Health after a monster is added.</li>
+                                </ol>
+                            </li>
+                            <li><span style="text-decoration: underline;">Minor Changes:</span>
+                                <ol style="list-style-type: lower-alpha;">
+                                    <li>Added a cogwheel icon to toggle visibility of settings.</li>
+                                    <li>Implemented general performance improvements.</li>
+                                    <li>Updated changelog to reflect all v1.1 changes.</li>
+                                </ol>
+                            </li>
+                        </ol>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <div id="addMonsterFormContainer" class="bg-white p-4 rounded-lg shadow mb-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-semibold">Add Monsters</h2>
                 <button id="toggleAddForm" class="text-blue-500 hover:text-blue-700 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path id="toggleIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 9l-7 7-7-7"></path>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-            <div id="addMonsterForm" class="mt-4 flex flex-col gap-4">
+            <div id="addMonsterForm" class="mt-3 flex flex-col gap-4">
+                <label id="encounterContainer" class="flex items-center advanced-field">
+                    <input type="text" id="encounterName" placeholder="Encounter Name/Number" class="border p-2 rounded w-full">
+                </label>
                 <div class="flex items-center gap-4">
                     <label class="flex items-center">
                         <input type="checkbox" id="autoInitiative" checked class="mr-2">
@@ -1022,16 +1204,24 @@
                         class="border p-2 rounded w-24" data-single-hp>
                     <input type="number" id="monsterInitiative" placeholder="INIT"
                         class="border p-2 rounded w-24 hidden" data-single-initiative>
+                    <label id="borderColorContainer" class="flex items-center advanced-field">
+                        <span class="mr-2">Color:</span>
+                        <input type="color" id="borderColor" value="#000000" class="border p-1 rounded">
+                    </label>
                 </div>
-                <label id="borderColorContainer" class="flex items-center advanced-field">
-                    <span class="mr-2">Border Color:</span>
-                    <input type="color" id="borderColor" value="#000000" class="border p-1 rounded">
-                </label>
                 <div id="individualInputs" class="flex flex-col gap-2 hidden"></div>
-                <button onclick="addMonsters()"
-                    class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 self-end">Add</button>
+                <div class="add-button-container gap-2">
+                    <button onclick="addMonsters()"
+                        class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Add</button>
+                </div>
             </div>
         </div>
+
+        <button id="floatingAddButton" class="floating-add-button" style="display: none;">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+        </button>
 
         <div id="monsterList" class="space-y-4"></div>
     </div>
@@ -1040,6 +1230,7 @@
         let monsters = [];
         let monsterData = [];
         let currentMonsterId = null;
+        let collapsedEncounters = new Set();
 
         const darkModeToggle = document.getElementById('darkModeInput');
         const prefersDark = localStorage.getItem('darkMode') === 'true';
@@ -1056,19 +1247,15 @@
         });
 
         const modeToggle = document.getElementById('modeToggle');
-        const prefersAdvanced = localStorage.getItem('advancedMode') === 'true';
+        // Initial mode will be set by the pop-up or local storage
+        let currentModeIsAdvanced = false;
 
-        if (prefersAdvanced) {
-            modeToggle.classList.add('advanced');
-            toggleAdvancedFields(true);
-        } else {
-            toggleAdvancedFields(false);
-        }
 
         modeToggle.addEventListener('click', () => {
             const isAdvanced = !modeToggle.classList.contains('advanced');
             modeToggle.classList.toggle('advanced', isAdvanced);
             localStorage.setItem('advancedMode', isAdvanced);
+            currentModeIsAdvanced = isAdvanced; // Update current mode state
             toggleAdvancedFields(isAdvanced);
             renderMonsters();
         });
@@ -1118,11 +1305,9 @@
         });
 
         function toggleAdvancedFields(isAdvanced) {
-            const entityTypeContainer = document.getElementById('entityTypeContainer');
-            const borderColorContainer = document.getElementById('borderColorContainer');
+            const advancedFields = document.querySelectorAll('.advanced-field');
+            advancedFields.forEach(field => field.classList.toggle('hidden', !isAdvanced));
             const notesFields = document.querySelectorAll('.notes-field');
-            entityTypeContainer.classList.toggle('hidden', !isAdvanced);
-            borderColorContainer.classList.toggle('hidden', !isAdvanced);
             notesFields.forEach(field => field.classList.toggle('hidden', !isAdvanced));
         }
 
@@ -1174,15 +1359,12 @@
         }
 
         document.getElementById('toggleAddForm').addEventListener('click', () => {
-            const form = document.getElementById('addMonsterForm');
-            const icon = document.getElementById('toggleIcon');
-            form.classList.toggle('hidden');
-            if (form.classList.contains('hidden')) {
-                icon.setAttribute('d', 'M5 15l7-7 7 7');
-            } else {
-                icon.setAttribute('d', 'M19 9l-7 7-7-7');
-            }
+            const formContainer = document.getElementById('addMonsterFormContainer');
+            const floatingButton = document.getElementById('floatingAddButton');
+            formContainer.style.display = 'none';
+            floatingButton.style.display = 'flex';
         });
+
 
         function calculateRandomHP(monsterDetails) {
             if (!monsterDetails || !monsterDetails.hit_dice) {
@@ -1240,9 +1422,10 @@
             const name = document.getElementById('monsterName').value.trim();
             const count = parseInt(document.getElementById('monsterCount').value) || 1;
             const isAutoInitiative = autoInitiativeCheckbox.checked;
-            const isAdvanced = modeToggle.classList.contains('advanced');
+            const isAdvanced = currentModeIsAdvanced; // Use the current mode state
             const entityType = isAdvanced ? document.getElementById('entityType').value : 'monster';
             const borderColor = isAdvanced ? document.getElementById('borderColor').value : '#000000';
+            const encounterName = isAdvanced ? document.getElementById('encounterName').value.trim() : '';
 
             if (!name) {
                 alert('Please enter a valid monster name.');
@@ -1288,7 +1471,8 @@
                     entityType: entityType,
                     notes: '',
                     borderColor: borderColor !== '#000000' ? borderColor : null,
-                    apiUrl: monsterData[name.toLowerCase()]?.url
+                    apiUrl: monsterData[name.toLowerCase()]?.url,
+                    encounter: encounterName || null
                 };
                 monsters.push(monster);
             }
@@ -1299,6 +1483,7 @@
             document.getElementById('monsterCount').value = '';
             document.getElementById('entityType').value = 'monster';
             document.getElementById('borderColor').value = '#000000';
+            document.getElementById('encounterName').value = '';
             document.getElementById('individualInputs').innerHTML = '';
             document.querySelector('[data-single-hp]').classList.remove('hidden');
             document.querySelector('[data-single-initiative]').classList.toggle('hidden', isAutoInitiative);
@@ -1619,6 +1804,15 @@
             renderMonsters();
         }
 
+        function toggleEncounter(encounter) {
+            if (collapsedEncounters.has(encounter)) {
+                collapsedEncounters.delete(encounter);
+            } else {
+                collapsedEncounters.add(encounter);
+            }
+            renderMonsters();
+        }
+
         function getStatus(monster) {
             const hpRatio = monster.currentHP / monster.maxHP;
             if (monster.currentHP === 0) return 'Dead';
@@ -1631,85 +1825,201 @@
         function renderMonsters() {
             const list = document.getElementById('monsterList');
             list.innerHTML = '';
-            const isAdvanced = modeToggle.classList.contains('advanced');
-            monsters.sort((a, b) => {
-                const aIsDead = a.currentHP === 0;
-                const bIsDead = b.currentHP === 0;
-                if (aIsDead && !bIsDead) return 1;
-                if (!aIsDead && bIsDead) return -1;
-                return b.initiative - a.initiative;
+            const isAdvanced = currentModeIsAdvanced; // Use the current mode state
+
+            // Group monsters by encounter
+            const groupedMonsters = {};
+            monsters.forEach(monster => {
+                const encounter = monster.encounter || 'ungrouped';
+                if (!groupedMonsters[encounter]) {
+                    groupedMonsters[encounter] = [];
+                }
+                groupedMonsters[encounter].push(monster);
             });
 
-            monsters.forEach(monster => {
-                const hpRatio = monster.currentHP / monster.maxHP;
-                const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
-                const segments = Array(monster.maxHP).fill().map((_, i) => `
-                    <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
-                `).join('');
+            // Sort groups by encounter name, with ungrouped at the end
+            const sortedEncounters = Object.keys(groupedMonsters).sort((a, b) => {
+                if (a === 'ungrouped') return 1;
+                if (b === 'ungrouped') return -1;
+                return a.localeCompare(b);
+            });
 
-                const status = getStatus(monster);
-                const statusColor = {
-                    'Healthy': 'text-green-600',
-                    'Injured': 'text-yellow-300',
-                    'Bloodied': 'text-yellow-600',
-                    'Critical': 'text-red-600',
-                    'Dead': 'text-gray-600'
-                }[status];
+            sortedEncounters.forEach(encounter => {
+                // Sort monsters within each encounter by initiative
+                groupedMonsters[encounter].sort((a, b) => {
+                    const aIsDead = a.currentHP === 0;
+                    const bIsDead = b.currentHP === 0;
+                    if (aIsDead && !bIsDead) return 1;
+                    if (!aIsDead && bIsDead) return -1;
+                    return b.initiative - a.initiative;
+                });
 
-                const isDead = monster.currentHP === 0;
-                const borderClass = isAdvanced && !monster.borderColor ? (
-                    monster.entityType === 'player' ? 'player-border' :
-                    monster.entityType === 'npc' ? 'npc-border' : ''
-                ) : (monster.borderColor ? 'custom-border' : '');
-                const borderStyle = monster.borderColor ? `style="--custom-border-color: ${monster.borderColor}"` : '';
-                const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''} ${borderClass}`;
+                // Create encounter group container
+                const encounterDiv = document.createElement('div');
+                encounterDiv.className = `encounter-group ${encounter === 'ungrouped' ? 'ungrouped' : ''} ${collapsedEncounters.has(encounter) ? 'collapsed' : ''}`;
+                const header = encounter === 'ungrouped' ? '' : `
+                    <h2 onclick="toggleEncounter('${encounter}')">
+                        <svg class="encounter-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        ${encounter}
+                    </h2>
+                `;
+                encounterDiv.innerHTML = header;
+                const monsterListDiv = document.createElement('div');
+                monsterListDiv.className = 'encounter-monsters space-y-4';
 
-                list.innerHTML += `
-                    <div class="${cardClasses}" data-monster-id="${monster.id}" ${borderStyle}>
-                        <div class="flex justify-between items-start">
-                            <div class="monster-header">
-                                <div class="monster-name-container">
-                                    <h3 class="text-lg font-semibold monster-name" onclick="openDetailsPopup(${monster.id})">${monster.name}</h3>
-                                    <svg class="details-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onclick="openDetailsPopup(${monster.id})">
-                                        <g id="Page-1" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
-                                            <g id="Dribbble-Light-Preview" transform="translate(-60.000000, -1919.000000)">
-                                                <g id="icons" transform="translate(56.000000, 160.000000)">
-                                                    <path d="M11,1769 L17,1769 L17,1767 L11,1767 L11,1769 Z M11,1765 L17,1765 L17,1763 L11,1763 L11,1765 Z M20,1763 L20,1761 C21.103,1761 22,1761.898 22,1763 L20,1763 Z M18,1775 C18,1776.103 17.103,1777 16,1777 L16,1773 L10,1773 L10,1763 C10,1761.898 10.897,1761 12,1761 L18,1761 L18,1775 Z M14,1777 L8,1777 C6.897,1777 6,1776.103 6,1775 L14,1775 L14,1777 Z M20,1759 L12,1759 C9.791,1759 8,1760.791 8,1763 L8,1773 L4,1773 L4,1775 C4,1777.21 5.791,1779 8,1779 L16,1779 C18.209,1779 20,1777.21 20,1775 L20,1765 L24,1765 L24,1763 C24,1760.791 22.209,1759 20,1759 L20,1759 Z" id="script-[#1601]"></path>
+                groupedMonsters[encounter].forEach(monster => {
+                    const hpRatio = monster.currentHP / monster.maxHP;
+                    const segmentColor = hpRatio <= 0.25 ? '#ff0000' : hpRatio <= 0.5 ? '#ffcc00' : '#22c55e';
+                    const segments = Array(monster.maxHP).fill().map((_, i) => `
+                        <div class="health-segment ${i < monster.currentHP ? '' : 'empty-segment'}" style="${i < monster.currentHP ? `background-color: ${segmentColor}` : ''}"></div>
+                    `).join('');
+
+                    const status = getStatus(monster);
+                    const statusColor = {
+                        'Healthy': 'text-green-600',
+                        'Injured': 'text-yellow-300',
+                        'Bloodied': 'text-yellow-600',
+                        'Critical': 'text-red-600',
+                        'Dead': 'text-gray-600'
+                    }[status];
+
+                    const isDead = monster.currentHP === 0;
+                    const borderClass = isAdvanced && !monster.borderColor ? (
+                        monster.entityType === 'player' ? 'player-border' :
+                        monster.entityType === 'npc' ? 'npc-border' : ''
+                    ) : (monster.borderColor ? 'custom-border' : '');
+                    const borderStyle = monster.borderColor ? `style="--custom-border-color: ${monster.borderColor}"` : '';
+                    const cardClasses = `bg-white p-4 rounded-lg shadow flex flex-col gap-2 ${isDead ? 'opacity-50 grayscale' : ''} ${borderClass}`;
+
+                    monsterListDiv.innerHTML += `
+                        <div class="${cardClasses}" data-monster-id="${monster.id}" ${borderStyle}>
+                            <div class="flex justify-between items-start">
+                                <div class="monster-header">
+                                    <div class="monster-name-container">
+                                        <h3 class="text-lg font-semibold monster-name" onclick="openDetailsPopup(${monster.id})">${monster.name}</h3>
+                                        <svg class="details-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" onclick="openDetailsPopup(${monster.id})">
+                                            <g id="Page-1" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
+                                                <g id="Dribbble-Light-Preview" transform="translate(-60.000000, -1919.000000)">
+                                                    <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                        <path d="M11,1769 L17,1769 L17,1767 L11,1767 L11,1769 Z M11,1765 L17,1765 L17,1763 L11,1763 L11,1765 Z M20,1763 L20,1761 C21.103,1761 22,1761.898 22,1763 L20,1763 Z M18,1775 C18,1776.103 17.103,1777 16,1777 L16,1773 L10,1773 L10,1763 C10,1761.898 10.897,1761 12,1761 L18,1761 L18,1775 Z M14,1777 L8,1777 C6.897,1777 6,1776.103 6,1775 L14,1775 L14,1777 Z M20,1759 L12,1759 C9.791,1759 8,1760.791 8,1763 L8,1773 L4,1773 L4,1775 C4,1777.21 5.791,1779 8,1779 L16,1779 C18.209,1779 20,1777.21 20,1775 L20,1765 L24,1765 L24,1763 C24,1760.791 22.209,1759 20,1759 L20,1759 Z" id="script-[#1601]"></path>
+                                                    </g>
                                                 </g>
                                             </g>
-                                        </g>
+                                        </svg>
+                                    </div>
+                                    <div class="ac-initiative">
+                                        <span class="ac-display" onclick="editAC(${monster.id})">AC: ${monster.ac}</span>
+                                        <span class="initiative-display" onclick="editInitiative(${monster.id})">Init: ${monster.initiative}</span>
+                                    </div>
+                                </div>
+                                <button onclick="removeMonster(${monster.id})" class="remove-button">
+                                    <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
                                     </svg>
-                                </div>
-                                <div class="ac-initiative">
-                                    <span class="ac-display" onclick="editAC(${monster.id})">AC: ${monster.ac}</span>
-                                    <span class="initiative-display" onclick="editInitiative(${monster.id})">Init: ${monster.initiative}</span>
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
+                                <span class="hp-display" onclick="openHPPopup(${monster.id})">${monster.currentHP}/${monster.maxHP} HP</span>
+                                <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
+                            </div>
+                            <div class="health-bar">${segments}</div>
+                            <div class="flex flex-col sm:flex-row gap-4 items-start">
+                                <span class="${statusColor} font-medium">${status}</span>
+                                <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
+                                    <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
                                 </div>
                             </div>
-                            <button onclick="removeMonster(${monster.id})" class="remove-button">
-                                <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                                </svg>
-                            </button>
                         </div>
-                        <div class="flex items-center gap-4">
-                            <button onclick="adjustHP(${monster.id}, -1)" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">-</button>
-                            <span class="hp-display" onclick="openHPPopup(${monster.id})">${monster.currentHP}/${monster.maxHP} HP</span>
-                            <button onclick="adjustHP(${monster.id}, 1)" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">+</button>
-                        </div>
-                        <div class="health-bar">${segments}</div>
-                        <div class="flex flex-col sm:flex-row gap-4 items-start">
-                            <span class="${statusColor} font-medium">${status}</span>
-                            <div class="flex-1 notes-field ${isAdvanced ? '' : 'hidden'}">
-                                <textarea id="notes-${monster.id}" class="notes-textarea" placeholder="Enter notes..." onblur="saveNotes(${monster.id})" onkeypress="if(event.key === 'Enter' && !event.shiftKey) saveNotes(${monster.id})">${monster.notes}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                    `;
+                });
+
+                encounterDiv.appendChild(monsterListDiv);
+                list.appendChild(encounterDiv);
             });
         }
+
+        const floatingAddButton = document.getElementById('floatingAddButton');
+        const addMonsterFormContainer = document.getElementById('addMonsterFormContainer');
+        const toggleAddFormButton = document.getElementById('toggleAddForm');
+        const modeSelectionPopup = document.getElementById('modeSelectionPopup');
+        const getStartedButton = document.getElementById('getStartedButton');
+        const neverShowAgainCheckbox = document.getElementById('neverShowAgainCheckbox');
+        const simpleModeRadio = document.getElementById('simpleModeRadio');
+        const advancedModeRadio = document.getElementById('advancedModeRadio');
+
+        // Function to initialize the application based on selected mode
+        function initializeApp(mode) {
+            currentModeIsAdvanced = (mode === 'advanced');
+            localStorage.setItem('advancedMode', currentModeIsAdvanced);
+
+            // Update the settings panel toggle display
+            modeToggle.classList.toggle('advanced', currentModeIsAdvanced);
+            toggleAdvancedFields(currentModeIsAdvanced);
+
+            // Hide the pop-up and show the add monster form
+            modeSelectionPopup.classList.add('hidden');
+            // Explicitly set display to none to ensure it's hidden
+            modeSelectionPopup.style.display = 'none';
+
+            addMonsterFormContainer.style.display = 'block';
+            floatingAddButton.style.display = 'none'; // Ensure floating button is hidden initially
+
+            renderMonsters(); // Render any existing monsters based on the selected mode
+        }
+
+        // Check local storage on page load
+        const savedMode = localStorage.getItem('advancedMode');
+        const neverShowAgain = localStorage.getItem('neverShowModeSelection') === 'true';
+
+        if (neverShowAgain && savedMode !== null) {
+            // If never show again is checked and a mode is saved, initialize directly
+            initializeApp(savedMode === 'true' ? 'advanced' : 'simple');
+        } else {
+            // Otherwise, show the pop-up
+            modeSelectionPopup.classList.remove('hidden');
+            modeSelectionPopup.style.display = 'flex'; // Ensure it's displayed as flex
+            // Set the default radio button based on saved preference if available
+            if (savedMode !== null) {
+                if (savedMode === 'true') {
+                    advancedModeRadio.checked = true;
+                } else {
+                    simpleModeRadio.checked = true;
+                }
+            }
+        }
+
+
+        getStartedButton.addEventListener('click', () => {
+            const selectedMode = simpleModeRadio.checked ? 'simple' : 'advanced';
+
+            if (neverShowAgainCheckbox.checked) {
+                localStorage.setItem('neverShowModeSelection', 'true');
+            } else {
+                localStorage.removeItem('neverShowModeSelection');
+            }
+
+            initializeApp(selectedMode);
+        });
+
+
+        floatingAddButton.addEventListener('click', () => {
+            addMonsterFormContainer.style.display = 'block';
+            floatingAddButton.style.display = 'none';
+            // Ensure the inner form is visible
+            document.getElementById('addMonsterForm').style.display = 'block';
+        });
+
+        toggleAddFormButton.addEventListener('click', () => {
+            addMonsterFormContainer.style.display = 'none';
+            floatingAddButton.style.display = 'flex';
+        });
+
     </script>
     <div class="ver text-center mt-4">
-        v1.2 – HP modifier and monster details!
+        v1.3 – Encounters!
     </div>
 </body>
 </html>
