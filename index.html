@@ -922,21 +922,22 @@
         }
 
         /* Mode Selection Pop-up Styles */
-        #modeSelectionPopup, #seedCodeModal {
+        #modeSelectionPopup, #seedCodeModal, #messageBoxModal, #loadingOverlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
-            /* Removed 'display: flex;' here */
             justify-content: center;
             align-items: center;
             z-index: 100;
             font-family: "DM Sans";
         }
 
-        #modeSelectionPopup .popup-content, #seedCodeModal .modal-content {
+        #modeSelectionPopup .popup-content,
+        #seedCodeModal .modal-content,
+        #messageBoxModal .message-content {
             background-color: white;
             padding: 32px;
             border-radius: 8px;
@@ -946,12 +947,16 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        body.dark #modeSelectionPopup .popup-content, body.dark #seedCodeModal .modal-content {
+        body.dark #modeSelectionPopup .popup-content,
+        body.dark #seedCodeModal .modal-content,
+        body.dark #messageBoxModal .message-content {
              background-color: #374151;
              color: #f9fafb;
         }
 
-        #modeSelectionPopup h2, #seedCodeModal h2 {
+        #modeSelectionPopup h2,
+        #seedCodeModal h2,
+        #messageBoxModal h2 {
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 16px;
@@ -989,7 +994,9 @@
             text-align: left;
         }
 
-        #modeSelectionPopup button, #seedCodeModal button {
+        #modeSelectionPopup button,
+        #seedCodeModal button,
+        #messageBoxModal button {
             background-color: #3b82f6;
             color: white;
             padding: 12px 24px;
@@ -999,7 +1006,9 @@
             transition: background-color 0.2s;
         }
 
-        #modeSelectionPopup button:hover, #seedCodeModal button:hover {
+        #modeSelectionPopup button:hover,
+        #seedCodeModal button:hover,
+        #messageBoxModal button:hover {
             background-color: #2563eb;
         }
 
@@ -1025,6 +1034,21 @@
             justify-content: space-between;
             gap: 10px;
             margin-top: 10px;
+        }
+
+        /* Loading Spinner Styles */
+        .spinner {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -1068,6 +1092,20 @@
                 <button id="closeSeedCodeModalButton" class="bg-red-500 text-white p-2 rounded hover:bg-red-600">Close</button>
             </div>
         </div>
+    </div>
+
+    <!-- Custom Message Box Modal -->
+    <div id="messageBoxModal" class="hidden">
+        <div class="message-content">
+            <h2 id="messageBoxTitle"></h2>
+            <p id="messageBoxContent" class="mb-4"></p>
+            <button id="messageBoxCloseButton">OK</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="hidden">
+        <div class="spinner"></div>
     </div>
 
     <div class="container mx-auto p-4">
@@ -1353,6 +1391,11 @@
                 seedCodeModal.classList.add('hidden');
                 seedCodeModal.style.display = 'none'; // Explicitly hide
             }
+            // Close message box modal if clicked outside
+            const messageBoxModal = document.getElementById('messageBoxModal');
+            if (!messageBoxModal.classList.contains('hidden') && !messageBoxModal.querySelector('.message-content').contains(event.target)) {
+                hideMessageBox();
+            }
         });
 
         const toggleButton = document.getElementById('toggleChangelog');
@@ -1518,7 +1561,7 @@
             const encounterName = isAdvanced ? document.getElementById('encounterName').value.trim() : '';
 
             if (!name) {
-                alert('Please enter a valid monster name.');
+                showMessageBox('Error', 'Please enter a valid monster name.');
                 return;
             }
 
@@ -1532,7 +1575,7 @@
                     ? rollInitiative(monsterDetails)
                     : parseInt(document.getElementById('monsterInitiative').value) || 0;
                 if (maxHP <= 0) {
-                    alert('Please enter a valid HP value.');
+                    showMessageBox('Error', 'Please enter a valid HP value.');
                     return;
                 }
                 hpValues.push(maxHP);
@@ -1545,7 +1588,7 @@
                     ? Array(count).fill().map(() => rollInitiative(monsterDetails))
                     : Array.from(initiativeInputs).map(input => parseInt(input.value) || 0);
                 if (hpValues.some(hp => hp <= 0)) {
-                    alert('Please enter valid HP values for all monsters.');
+                    showMessageBox('Error', 'Please enter valid HP values for all monsters.');
                     return;
                 }
             }
@@ -2096,6 +2139,43 @@
         const saveEncounterButton = document.getElementById('saveEncounterButton');
         const loadEncounterButton = document.getElementById('loadEncounterButton');
 
+        // Elements for custom message box
+        const messageBoxModal = document.getElementById('messageBoxModal');
+        const messageBoxTitle = document.getElementById('messageBoxTitle');
+        const messageBoxContent = document.getElementById('messageBoxContent');
+        const messageBoxCloseButton = document.getElementById('messageBoxCloseButton');
+
+        // Elements for loading overlay
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // Function to display custom message box
+        function showMessageBox(title, message) {
+            messageBoxTitle.textContent = title;
+            messageBoxContent.textContent = message;
+            messageBoxModal.classList.remove('hidden');
+            messageBoxModal.style.display = 'flex';
+        }
+
+        // Function to hide custom message box
+        function hideMessageBox() {
+            messageBoxModal.classList.add('hidden');
+            messageBoxModal.style.display = 'none';
+        }
+
+        // Event listener for message box close button
+        messageBoxCloseButton.addEventListener('click', hideMessageBox);
+
+        // Function to show loading spinner
+        function showLoadingSpinner() {
+            loadingOverlay.classList.remove('hidden');
+            loadingOverlay.style.display = 'flex';
+        }
+
+        // Function to hide loading spinner
+        function hideLoadingSpinner() {
+            loadingOverlay.classList.add('hidden');
+            loadingOverlay.style.display = 'none';
+        }
 
         // Function to initialize the application based on selected mode
         function initializeApp(mode) {
@@ -2121,22 +2201,54 @@
         const savedMode = localStorage.getItem('advancedMode');
         const neverShowAgain = localStorage.getItem('neverShowModeSelection') === 'true';
 
-        if (neverShowAgain && savedMode !== null) {
-            // If never show again is checked and a mode is saved, initialize directly
-            initializeApp(savedMode === 'true' ? 'advanced' : 'simple');
-        } else {
-            // Otherwise, show the pop-up
-            modeSelectionPopup.classList.remove('hidden');
-            modeSelectionPopup.style.display = 'flex'; // Ensure it's displayed as flex
-            // Set the default radio button based on saved preference if available
-            if (savedMode !== null) {
-                if (savedMode === 'true') {
-                    advancedModeRadio.checked = true;
+        // Function to parse URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Initial check for seed in URL on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const seedFromUrl = getUrlParameter('seed');
+            if (seedFromUrl) {
+                showLoadingSpinner(); // Show spinner immediately if seed is present
+                // If a seed is present in the URL, try to load it immediately
+                await loadEncounterFromSeed(seedFromUrl);
+                hideLoadingSpinner(); // Hide spinner after loading
+                // After loading from URL, proceed with normal initialization to handle mode
+                if (neverShowAgain && savedMode !== null) {
+                    initializeApp(savedMode === 'true' ? 'advanced' : 'simple');
                 } else {
-                    simpleModeRadio.checked = true;
+                    modeSelectionPopup.classList.remove('hidden');
+                    modeSelectionPopup.style.display = 'flex';
+                    if (savedMode !== null) {
+                        if (savedMode === 'true') {
+                            advancedModeRadio.checked = true;
+                        } else {
+                            simpleModeRadio.checked = true;
+                        }
+                    }
+                }
+            } else {
+                // If no seed in URL, proceed with normal mode selection logic
+                if (neverShowAgain && savedMode !== null) {
+                    initializeApp(savedMode === 'true' ? 'advanced' : 'simple');
+                } else {
+                    modeSelectionPopup.classList.remove('hidden');
+                    modeSelectionPopup.style.display = 'flex';
+                    if (savedMode !== null) {
+                        if (savedMode === 'true') {
+                            advancedModeRadio.checked = true;
+                        } else {
+                            simpleModeRadio.checked = true;
+                        }
+                    }
                 }
             }
-        }
+        });
+
 
         // Event listener for "Get Started" button in mode selection popup
         getStartedButton.addEventListener('click', () => {
@@ -2172,16 +2284,16 @@
                 // Prepare a simplified array of monster data for serialization
                 const serializableMonsters = monsters.map(m => ({
                     id: m.id,
-                    name: m.name,
-                    maxHP: m.maxHP,
+                    name: m.name.replace(/\s*\d+$/, ''), // Store base name
                     currentHP: m.currentHP,
+                    maxHP: m.maxHP,
                     initiative: m.initiative,
                     ac: m.ac,
                     entityType: m.entityType,
                     notes: m.notes,
                     borderColor: m.borderColor,
                     encounter: m.encounter,
-                    apiUrl: m.apiUrl
+                    apiUrl: m.apiUrl // Essential for re-fetching full data
                 }));
                 const jsonString = JSON.stringify(serializableMonsters);
                 // Base64 encode the JSON string
@@ -2194,37 +2306,63 @@
 
         // Function to load encounter from seed code
         async function loadEncounterFromSeed(seedCode) {
+            showLoadingSpinner(); // Show spinner at the start of manual load
             try {
                 // Base64 decode and parse the JSON string
                 const decodedString = atob(seedCode);
-                const loadedMonsters = JSON.parse(decodedString);
+                const loadedMonstersData = JSON.parse(decodedString);
 
                 // Clear current monsters and populate with loaded ones
                 monsters = [];
-                for (const loadedMonster of loadedMonsters) {
-                    // Ensure unique IDs for loaded monsters to prevent conflicts with new additions
-                    loadedMonster.id = Date.now() + Math.random();
-                    monsters.push(loadedMonster);
+                const newMonsterDataCache = {}; // Temporary cache for this load operation
 
-                    // Re-fetch monster details for API monsters to populate monsterData cache
-                    if (loadedMonster.apiUrl && !monsterData[loadedMonster.name.replace(/\s*\d+$/, '').toLowerCase()]) {
-                        await fetchMonsterDetails(loadedMonster.apiUrl);
+                for (const loadedMonster of loadedMonstersData) {
+                    let monsterDetails = null;
+                    if (loadedMonster.apiUrl) {
+                        const baseName = loadedMonster.name.toLowerCase();
+                        if (!newMonsterDataCache[baseName]) {
+                            // Fetch full monster details and cache them for this session
+                            monsterDetails = await fetchMonsterDetails(loadedMonster.apiUrl);
+                        } else {
+                            monsterDetails = newMonsterDataCache[baseName].details;
+                        }
                     }
+
+                    // Reconstruct monster object, ensuring unique IDs
+                    const newMonster = {
+                        id: Date.now() + Math.random(), // Assign new unique ID
+                        name: loadedMonster.name,
+                        maxHP: loadedMonster.maxHP,
+                        currentHP: loadedMonster.currentHP,
+                        initiative: loadedMonster.initiative,
+                        ac: monsterDetails?.armor_class?.[0]?.value || loadedMonster.ac || 10, // Use fetched AC or saved, default to 10
+                        entityType: loadedMonster.entityType,
+                        notes: loadedMonster.notes,
+                        borderColor: loadedMonster.borderColor,
+                        apiUrl: loadedMonster.apiUrl,
+                        encounter: loadedMonster.encounter
+                    };
+                    monsters.push(newMonster);
                 }
                 renderMonsters();
                 return true; // Indicate successful load
             } catch (error) {
                 console.error("Error loading encounter from seed:", error);
-                alert("Invalid seed code. Please check the code and try again.");
+                showMessageBox('Error', 'Invalid seed code. Please check the code and try again.');
                 return false; // Indicate failed load
+            } finally {
+                hideLoadingSpinner(); // Always hide spinner
             }
         }
 
         // Event listener for Save Encounter button
         saveEncounterButton.addEventListener('click', () => {
             const seed = generateEncounterSeed();
-            seedCodeModalTitle.textContent = "Your Encounter Seed Code";
-            seedCodeTextarea.value = seed;
+            const currentUrl = window.location.origin + window.location.pathname;
+            const shareableUrl = `${currentUrl}?seed=${seed}`;
+
+            seedCodeModalTitle.textContent = "Share This Encounter URL";
+            seedCodeTextarea.value = shareableUrl;
             seedCodeTextarea.readOnly = true;
             copySeedCodeButton.classList.remove('hidden');
             loadSeedCodeButton.classList.add('hidden'); // Hide load button
@@ -2234,7 +2372,7 @@
 
         // Event listener for Load Encounter button
         loadEncounterButton.addEventListener('click', () => {
-            seedCodeModalTitle.textContent = "Paste Encounter Seed Code";
+            seedCodeModalTitle.textContent = "Paste Encounter URL to Load";
             seedCodeTextarea.value = ''; // Clear previous code
             seedCodeTextarea.readOnly = false;
             copySeedCodeButton.classList.add('hidden'); // Hide copy button
@@ -2248,21 +2386,32 @@
         copySeedCodeButton.addEventListener('click', () => {
             seedCodeTextarea.select();
             document.execCommand('copy');
-            alert('Seed code copied to clipboard!');
+            showMessageBox('Copied!', 'Encounter URL copied to clipboard!');
         });
 
         // Event listener for Load button inside the modal
         loadSeedCodeButton.addEventListener('click', async () => {
-            const seed = seedCodeTextarea.value.trim();
-            if (seed) {
-                const success = await loadEncounterFromSeed(seed);
-                if (success) {
-                    seedCodeModal.classList.add('hidden');
-                    seedCodeModal.style.display = 'none'; // Explicitly hide
-                    alert('Encounter loaded successfully!');
+            const url = seedCodeTextarea.value.trim();
+            if (url) {
+                try {
+                    const urlObj = new URL(url);
+                    const seed = urlObj.searchParams.get('seed');
+                    if (seed) {
+                        const success = await loadEncounterFromSeed(seed);
+                        if (success) {
+                            seedCodeModal.classList.add('hidden');
+                            seedCodeModal.style.display = 'none'; // Explicitly hide
+                            showMessageBox('Loaded!', 'Encounter loaded successfully from URL!');
+                        }
+                    } else {
+                        showMessageBox('Error', 'No seed found in the provided URL. Please ensure the URL contains a "?seed=" parameter.');
+                    }
+                } catch (e) {
+                    showMessageBox('Error', 'Invalid URL. Please enter a valid URL with an encounter seed.');
+                    console.error("URL parsing error:", e);
                 }
             } else {
-                alert('Please paste a seed code to load.');
+                showMessageBox('Error', 'Please paste a URL to load.');
             }
         });
 
