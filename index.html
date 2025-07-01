@@ -2284,7 +2284,7 @@
                 // Prepare a simplified array of monster data for serialization
                 const serializableMonsters = monsters.map(m => ({
                     id: m.id,
-                    name: m.name.replace(/\s*\d+$/, ''), // Store base name
+                    name: m.name, // Store full name including numbers
                     currentHP: m.currentHP,
                     maxHP: m.maxHP,
                     initiative: m.initiative,
