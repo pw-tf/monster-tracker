@@ -12,137 +12,76 @@
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
-        /* CSS Variables for consistent theming */
-        :root {
-            --bg-primary: #1f2937;
-            --bg-secondary: #10151d;
-            --bg-tertiary: #18181b;
-            --bg-elevated: #1f1f23;
-            --bg-hover: #27272a;
-            --border-subtle: #27272a;
-            --border-default: #3f3f46;
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-tertiary: #71717a;
-            --accent-primary: #3b82f6;
-            --accent-primary-hover: #2563eb;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-        }
-
         body {
-            font-family: "DM Sans", sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: "Playfair Display", serif;
         }
 
-        /* Always dark mode styling */
-        body.dark,
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+        /* Dark mode overrides */
+        body.dark {
+            background-color: #1f2937;
+            color: #f9fafb;
         }
 
-        .bg-white,
-        body .bg-white,
         body.dark .bg-white {
-            background-color: var(--bg-secondary) !important;
-            color: var(--text-primary);
+            background-color: #374151;
+            color: #f9fafb;
         }
 
-        .bg-gray-100,
-        body .bg-gray-100,
-        body.dark .bg-gray-100 {
-            background-color: var(--bg-primary) !important;
-        }
-
-        .text-black,
-        body .text-black,
         body.dark .text-black {
-            color: var(--text-primary);
+            color: #f9fafb;
         }
 
-        .border,
-        body .border,
         body.dark .border {
-            border-color: var(--border-default);
+            border-color: #4b5563;
         }
 
-        input,
-        button,
-        textarea,
-        select,
-        body input,
-        body button,
-        body textarea,
-        body select,
         body.dark input,
         body.dark button,
         body.dark textarea,
         body.dark select {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            border-color: var(--border-default);
+            background-color: #4b5563;
+            color: #f9fafb;
         }
 
-        .health-bar,
-        body .health-bar,
         body.dark .health-bar {
-            background-color: var(--bg-tertiary);
+            background-color: #4b5563;
         }
 
-        #monsterSuggestions,
-        body #monsterSuggestions,
         body.dark #monsterSuggestions {
-            background-color: var(--bg-secondary);
-            border-color: var(--border-default);
+            background-color: #374151;
+            border-color: #4b5563;
         }
 
-        #monsterSuggestions div:hover,
-        body #monsterSuggestions div:hover,
         body.dark #monsterSuggestions div:hover {
-            background-color: var(--bg-hover);
+            background-color: #4b5563;
         }
 
-        .ac-display,
-        .initiative-display,
-        .hp-display,
-        body .ac-display,
-        body .initiative-display,
-        body .hp-display,
         body.dark .ac-display,
         body.dark .initiative-display,
         body.dark .hp-display {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            border-color: var(--border-default);
+            background-color: #4b5563;
+            color: #f9fafb;
+            border-color: #6b7280;
         }
 
-        .ac-display:hover,
-        .initiative-display:hover,
-        .hp-display:hover,
-        body .ac-display:hover,
-        body .initiative-display:hover,
-        body .hp-display:hover,
         body.dark .ac-display:hover,
         body.dark .initiative-display:hover,
         body.dark .hp-display:hover {
-            background-color: var(--bg-hover);
+            background-color: #6b7280;
         }
 
         .health-bar {
             display: flex;
             height: 20px;
-            background-color: var(--bg-tertiary);
-            border-radius: 6px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
             overflow: hidden;
         }
 
         .health-segment {
             flex: 1;
-            background-color: var(--success);
-            border-right: 1px solid var(--bg-tertiary);
+            background-color: #22c55e;
+            border-right: 1px solid #fff;
         }
 
         .health-segment:last-child {
@@ -150,14 +89,14 @@
         }
 
         .empty-segment {
-            background-color: var(--bg-tertiary);
+            background-color: #e5e7eb;
         }
 
         #monsterSuggestions {
             position: absolute;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-default);
-            border-radius: 6px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
             max-height: 200px;
             overflow-y: auto;
             width: 100%;
@@ -170,7 +109,7 @@
         }
 
         #monsterSuggestions div:hover {
-            background-color: var(--bg-hover);
+            background-color: #f3f4f6;
         }
 
         /* Dark mode toggle switch styles */
@@ -539,7 +478,7 @@
 
         .initiative-display:hover,
         .ac-display:hover {
-            background-color: var(--bg-hover);
+            background-color: #d1d5db;
         }
 
         .monster-name {
@@ -548,15 +487,15 @@
         }
 
         .monster-name:hover {
-            color: var(--accent-primary);
+            color: #3b82f6;
         }
 
         body.dark .monster-name:hover {
-            color: var(--accent-primary);
+            color: #60a5fa;
         }
 
         .remove-button {
-            color: var(--danger);
+            color: #ef4444;
             transition: color 0.2s;
         }
 
@@ -573,23 +512,19 @@
             opacity: 30%;
             text-align: center;
             font-size: 70%;
-            color: var(--text-secondary);
         }
 
         #changelogBox {
-            font-family: "DM Sans", sans-serif;
-            background-color: var(--bg-secondary) !important;
-            border-color: var(--border-default) !important;
-            color: var(--text-primary);
+            font-family: sans-serif;
         }
 
         /* Border styles for Player and NPC */
         .player-border {
-            border: 2px solid var(--accent-primary);
+            border: 2px solid #3b82f6;
         }
 
         .npc-border {
-            border: 2px solid var(--warning);
+            border: 2px solid #a16207;
         }
 
         .custom-border {
@@ -601,33 +536,31 @@
             min-height: 40px;
             max-height: 100px;
             width: 100%;
-            border: 1px solid var(--border-default);
-            border-radius: 6px;
-            padding: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 4px;
             font-family: "DM Sans";
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
         }
 
         body.dark .notes-textarea {
-            border-color: var(--border-default);
+            border-color: #4b5563;
         }
 
         #settingsPanel {
             position: absolute;
             top: 60px;
             right: 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-default);
-            border-radius: 8px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
             padding: 16px;
             z-index: 20;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         body.dark #settingsPanel {
-            background: var(--bg-secondary);
-            border-color: var(--border-default);
+            background: #374151;
+            border-color: #4b5563;
         }
 
         .details-popup .details-content .dice {
@@ -635,16 +568,16 @@
         }
 
         .settings-button {
-            color: var(--text-primary);
+            color: #1f2937;
             transition: color 0.2s;
         }
 
         body.dark .settings-button {
-            color: var(--text-primary);
+            color: #f9fafb;
         }
 
         .settings-button:hover {
-            color: var(--accent-primary);
+            color: #3b82f6;
         }
 
         .settings-button svg {
@@ -761,27 +694,26 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--bg-secondary);
-            padding: 12px;
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-default);
+            background-color: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 50;
             width: 240px;
             font-family: "DM Sans";
         }
 
         body.dark .hp-popup {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
+            background-color: #374151;
+            color: #f9fafb;
         }
 
         .hp-popup .hp-input {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-default);
-            border-radius: 6px;
-            padding: 4px 8px;
+            background-color: #e5e7eb;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 2px 4px;
             width: 60px;
             text-align: center;
             margin: 4px auto;
@@ -790,9 +722,9 @@
         }
 
         body.dark .hp-popup .hp-input {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            border-color: var(--border-default);
+            background-color: #4b5563;
+            color: #f9fafb;
+            border-color: #6b7280;
         }
 
         .hp-popup .hp-buttons {
@@ -803,16 +735,15 @@
         }
 
         .hp-popup .hp-buttons button {
-            padding: 6px 8px;
-            border-radius: 6px;
+            padding: 4px;
+            border-radius: 4px;
             font-size: 0.75rem;
             cursor: pointer;
             transition: background-color 0.2s;
-            border: none;
         }
 
         .hp-popup .hp-buttons .decrement {
-            background-color: var(--danger);
+            background-color: #ef4444;
             color: white;
         }
 
@@ -821,7 +752,7 @@
         }
 
         .hp-popup .hp-buttons .increment {
-            background-color: var(--success);
+            background-color: #22c55e;
             color: white;
         }
 
@@ -830,12 +761,12 @@
         }
 
         .hp-popup .hp-buttons .set {
-            background-color: var(--accent-primary);
+            background-color: #3b82f6;
             color: white;
         }
 
         .hp-popup .hp-buttons .set:hover {
-            background-color: var(--accent-primary-hover);
+            background-color: #2563eb;
         }
 
         /* Monster Details Popup styles */
@@ -844,11 +775,10 @@
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: var(--bg-secondary);
-            padding: 12px;
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-default);
+            background-color: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 50;
             width: 300px;
             max-height: 400px;
@@ -856,8 +786,8 @@
         }
 
         body.dark .details-popup {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
+            background-color: #374151;
+            color: #f9fafb;
         }
 
         .details-popup .details-content {
@@ -898,7 +828,7 @@
 
         .details-icon:hover {
             opacity: 100%;
-            color: var(--accent-primary);
+            color: #3b82f6;
         }
 
         .monster-name-container {
@@ -909,21 +839,20 @@
         /* Encounter group styles */
         .encounter-group {
             margin-bottom: 16px;
-            background-color: var(--bg-tertiary);
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid var(--border-subtle);
+            background-color: #f9fafb;
+            border-radius: 4px;
+            padding: 8px;
         }
 
         body.dark .encounter-group {
-            background-color: var(--bg-tertiary);
+            background-color: #2d3748;
         }
 
         .encounter-group h2 {
             font-size: 1.25rem;
             font-weight: bold;
             margin-bottom: 8px;
-            color: var(--text-primary);
+            color: #1f2937;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -931,7 +860,7 @@
         }
 
         body.dark .encounter-group h2 {
-            color: var(--text-primary);
+            color: #f9fafb;
         }
 
         .encounter-group.ungrouped h2 {
@@ -956,7 +885,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: var(--accent-primary);
+            background-color: #3b82f6;
             color: white;
             width: 56px;
             height: 56px;
@@ -964,23 +893,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             z-index: 30;
             transition: background-color 0.2s;
-            border: none;
         }
 
         .floating-add-button:hover {
-            background-color: var(--accent-primary-hover);
+            background-color: #2563eb;
         }
 
         body.dark .floating-add-button {
-            background-color: var(--accent-primary);
+            background-color: #60a5fa;
         }
 
         body.dark .floating-add-button:hover {
-            background-color: var(--accent-primary-hover);
+            background-color: #3b82f6;
         }
 
         /* Update the add monster form container to be hidden by default */
@@ -1010,21 +938,20 @@
         #modeSelectionPopup .popup-content,
         #seedCodeModal .modal-content,
         #messageBoxModal .message-content {
-            background-color: var(--bg-secondary);
+            background-color: white;
             padding: 32px;
-            border-radius: 12px;
+            border-radius: 8px;
             text-align: center;
             max-width: 400px;
             width: 90%;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-default);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         body.dark #modeSelectionPopup .popup-content,
         body.dark #seedCodeModal .modal-content,
         body.dark #messageBoxModal .message-content {
-             background-color: var(--bg-secondary);
-             color: var(--text-primary);
+             background-color: #374151;
+             color: #f9fafb;
         }
 
         #modeSelectionPopup h2,
@@ -1034,7 +961,6 @@
             font-weight: bold;
             margin-bottom: 16px;
             font-family: "Playfair Display";
-            color: var(--text-primary);
         }
 
         #modeSelectionPopup .mode-option {
@@ -1047,7 +973,6 @@
             margin-bottom: 8px;
             cursor: pointer;
             font-family: "Playfair Display";
-            color: var(--text-primary);
         }
 
          #modeSelectionPopup .mode-option input[type="radio"] {
@@ -1056,11 +981,11 @@
 
         #modeSelectionPopup .mode-option p {
             font-size: 0.875rem;
-            color: var(--text-secondary);
+            color: #4b5563;
         }
 
         body.dark #modeSelectionPopup .mode-option p {
-             color: var(--text-secondary);
+             color: #d1d5db;
         }
 
         #modeSelectionPopup .never-show {
@@ -1072,39 +997,36 @@
         #modeSelectionPopup button,
         #seedCodeModal button,
         #messageBoxModal button {
-            background-color: var(--accent-primary);
+            background-color: #3b82f6;
             color: white;
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.2s;
-            border: none;
         }
 
         #modeSelectionPopup button:hover,
         #seedCodeModal button:hover,
         #messageBoxModal button:hover {
-            background-color: var(--accent-primary-hover);
+            background-color: #2563eb;
         }
 
         #seedCodeTextarea {
             width: 100%;
             height: 150px;
-            padding: 12px;
-            border: 1px solid var(--border-default);
-            border-radius: 8px;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
             margin-bottom: 16px;
             resize: vertical;
             font-family: "DM Sans";
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
         }
 
         body.dark #seedCodeTextarea {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            border-color: var(--border-default);
+            background-color: #4b5563;
+            color: #f9fafb;
+            border-color: #6b7280;
         }
 
         .flex-row-buttons {
@@ -1116,87 +1038,21 @@
 
         /* Loading Spinner Styles */
         .spinner {
-            border: 8px solid var(--bg-tertiary);
-            border-top: 8px solid var(--accent-primary);
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
             border-radius: 50%;
             width: 60px;
             height: 60px;
-            animation: spin 0.8s linear infinite;
+            animation: spin 2s linear infinite;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Header styling */
-        .text-2xl {
-            font-family: "Playfair Display", serif;
-            color: var(--text-primary);
-        }
-
-        /* Tailwind overrides for dark theme */
-        .bg-blue-500 {
-            background-color: var(--accent-primary) !important;
-        }
-
-        .bg-blue-500:hover,
-        .hover\:bg-blue-600:hover {
-            background-color: var(--accent-primary-hover) !important;
-        }
-
-        .bg-red-500 {
-            background-color: var(--danger) !important;
-        }
-
-        .bg-green-500 {
-            background-color: var(--success) !important;
-        }
-
-        .text-green-600 {
-            color: var(--success) !important;
-        }
-
-        .text-yellow-300,
-        .text-yellow-600 {
-            color: var(--warning) !important;
-        }
-
-        .text-red-600 {
-            color: var(--danger) !important;
-        }
-
-        .text-gray-600 {
-            color: var(--text-muted) !important;
-        }
-
-        .text-blue-500,
-        .text-blue-600 {
-            color: var(--accent-primary) !important;
-        }
-
-        .hover\:text-blue-700:hover {
-            color: var(--accent-primary-hover) !important;
-        }
-
-        .hover\:underline:hover {
-            text-decoration: underline;
-        }
-
-        .shadow {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
-        }
-
-        .rounded-lg {
-            border-radius: 8px !important;
-        }
-
-        .rounded {
-            border-radius: 6px !important;
-        }
     </style>
 </head>
-<body class="dark">
+<body class="bg-gray-100">
 
     <div id="modeSelectionPopup" class="hidden">
         <div class="popup-content">
@@ -1462,15 +1318,12 @@
         let collapsedEncounters = new Set();
 
         const darkModeToggle = document.getElementById('darkModeInput');
-        // Default to dark mode for consistent styling
-        const prefersDark = localStorage.getItem('darkMode') !== 'false';
+        const prefersDark = localStorage.getItem('darkMode') === 'true';
 
-        // Apply dark mode preference on load (default to dark)
+        // Apply dark mode preference on load
         if (prefersDark) {
             document.body.classList.add('dark');
             darkModeToggle.checked = true;
-        } else {
-            document.body.classList.remove('dark');
         }
 
         // Event listener for dark mode toggle
